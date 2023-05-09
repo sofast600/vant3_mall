@@ -350,6 +350,7 @@ export default {
           this.countTotalTwo=this.calculateTotalTwo
           this.countTotal=this.calculateTotal
           this.listLoading = false;
+          this.total = this.list.length;
         }
 
 
