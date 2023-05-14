@@ -105,6 +105,13 @@ export const asyncRouterMap = [
         hidden: true
       },
       {
+        path: 'membertop',
+        name: 'membertop',
+        component: () => import('@/views/caigou/member/top_score'),
+        meta: { title: '上分' },
+        hidden: true
+      },
+      {
         path: 'order',
         name: 'order',
         component: () => import('@/views/caigou/order/index'),

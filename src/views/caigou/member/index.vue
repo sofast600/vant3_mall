@@ -178,6 +178,12 @@
                 @click="handleUpdateForm(scope.$index, scope.row)"
                 >编辑
               </el-button>
+
+              <el-button
+                  size="mini"
+                  @click="handleTopForm(scope.$index, scope.row)"
+              >上分
+              </el-button>
             </p>
           </template>
         </el-table-column>
@@ -306,6 +312,11 @@ export default {
     //编辑-修改
     handleUpdateForm(index, row) {
       this.$router.push({ path: "/caigou/memberEdit", query: { id: row.id } });
+    },
+
+    //编辑-上分
+    handleTopForm(index, row) {
+      this.$router.push({ path: "/caigou/membertop", query: { id: row.id } });
     },
     //保存表单提交数据
     handleDialogConfirm() {

@@ -294,7 +294,20 @@ export default {
         this.data1 = time.getTime();
       }
       if(this.listQuery.address!=''){
-        this.getTransactions();
+         var  time=this.data1-this.data0;
+        if(time==86400000){
+          this.data0 = this.listQuery.create_at[0].getTime()
+          this.data1= this.listQuery.create_at[1].getTime()+10800000-1
+          for(var i = 0; i < 8; i++){
+            this.data0 =this.data0+10800000;
+            this.data1=  this.data1+10800000;
+            this.getTransactions();
+            // this.data1= this.data1-1
+          }
+
+        }else{
+          this.getTransactions();
+        }
       }
     },
     getTransactions(){
@@ -329,7 +342,16 @@ export default {
 
            if(this.listQuery.fee==1){
              if(element.energy_usage_total<=32000){
+               // for(let k = 1; k < this.list.length; k++){
+               //   if( nums[k] == item.block_timestamp ){
+               //
+               //   }else{
+               //
+               //   }
+               //
+               // }
                this.list.push(item);
+
              }
            }else if (this.listQuery.fee==2){
              if(element.energy_usage_total>32000){

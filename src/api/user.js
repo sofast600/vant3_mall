@@ -35,6 +35,15 @@ export function updateMember(data) {
   })
 }
 
+//修改
+export function updateMemberTop(data) {
+  return request({
+    url: '/api/user.people/top',
+    method: 'post',
+    data: data
+  })
+}
+
 //修改状态
 export function updateStatus(data) {
   return request({
