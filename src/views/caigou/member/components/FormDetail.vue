@@ -18,7 +18,22 @@
       <el-form-item label="密码" prop="wallet_address">
         <el-input v-model="editInfo.password_unencrypted"></el-input>
       </el-form-item>
-      <el-form-item>
+
+        <el-form-item label="角色" prop="wallet_address">
+<!--          <el-input v-model="editInfo.password_unencrypted"></el-input>-->
+          <el-select v-model="editInfo.is_agent" placeholder="请选择角色" clearable>
+            <el-option
+                v-for="item in roleOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item>
+
         <el-button type="primary" @click="onSubmit('editInfoFrom')"
           >提交</el-button
         >
@@ -38,6 +53,7 @@ const defaultData = {
   wallet_address: "",
   password_unencrypted: "",
   status: 1,
+  is_agent: '',
 };
 export default {
   name: "MemberDetail",
@@ -50,6 +66,16 @@ export default {
   data() {
     return {
       editInfo: Object.assign({}, defaultData),
+      roleOptions: [
+        {
+          value: 1,
+          label: "代理",
+        },
+        {
+          value: 0,
+          label: "会员",
+        },
+      ],
     };
   },
   created() {

@@ -157,11 +157,11 @@
             <p>{{ scope.row.number }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="费用" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.money }}</p>
-          </template>
-        </el-table-column>
+<!--        <el-table-column label="费用" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>{{ scope.row.money }}</p>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
         <el-table-column label="消息通知信息" align="center">
           <template slot-scope="scope">
             <p>TgID：{{ scope.row.chat_id }}</p>
@@ -173,11 +173,11 @@
             <p>{{ scope.row.chat_first_str }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="状态" width="140" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.status_str }}</p>
-          </template>
-        </el-table-column>
+<!--        <el-table-column label="状态" width="140" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>{{ scope.row.status_str }}</p>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
         <el-table-column label="下单时间" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.create_at }}</p>

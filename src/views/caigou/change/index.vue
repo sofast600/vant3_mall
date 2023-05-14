@@ -27,61 +27,24 @@
             size="small"
             label-width="140px"
         >
-          <el-form-item label="钱包地址：">
+          <el-form-item label="用户ID：">
             <el-input
                 style="width: 203px"
-                v-model="listQuery.address"
-                placeholder="查询的钱包地址"
+                v-model="listQuery.uid"
+                placeholder="用户ID"
             ></el-input>
           </el-form-item>
-          <el-form-item label="订单状态：">
-            <el-select v-model="listQuery.fee" placeholder="全部" clearable>
-              <el-option
-                  v-for="item in queryOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-              >
-              </el-option>
-            </el-select>
+          <el-form-item label="用户名：">
+            <el-input
+                style="width: 203px"
+                v-model="listQuery.name"
+                placeholder="用户名"
+            ></el-input>
           </el-form-item>
-          <el-form-item label="查询时间：">
-            <el-date-picker
-                v-model="listQuery.create_at"
-                type="daterange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-            >
-            </el-date-picker>
-          </el-form-item>
+
         </el-form>
       </div>
     </el-card>
-    <div class="total-layout">
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <div class="total-frame">
-            <div class="total-title">32000笔数</div>
-            <div class="total-value">{{countTotal}}</div>
-          </div>
-        </el-col>
-        <el-col :span="8">
-          <div class="total-frame">
-            <div class="total-title">64000笔数</div>
-            <div class="total-value">{{countTotalTwo}}</div>
-          </div>
-        </el-col>
-<!--        <el-col :span="8">-->
-<!--          <div class="total-frame">-->
-<!--            <img :src="img_home_yesterday_amount" class="total-icon">-->
-<!--            <div class="total-title">昨日销售总额</div>-->
-<!--            <div class="total-value">￥5000.00</div>-->
-<!--          </div>-->
-<!--        </el-col>-->
-
-      </el-row>
-    </div>
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets"></i>
       <span>数据列表</span>
@@ -99,57 +62,41 @@
             width="60"
             align="center"
         ></el-table-column>
-        <el-table-column label="txID" width="80" align="center">
-          <template slot-scope="scope">{{ scope.row.txID }}</template>
+        <el-table-column label="ID" width="80" align="center">
+          <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="发起地址" align="center">
+        <el-table-column label="订单单号" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.owner_address }}</p>
+            <p>{{ scope.row.trade_no }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="接收地址" width="200" align="center">
+        <el-table-column label="用户信息" width="200" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.contract_address }}</p>
+            <p>用户ID：{{ scope.row.uid }}</p>
+            <p>用户名：{{ scope.row.name }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="类型" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.type_value }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="金额变化" align="center">
+          <template slot-scope="scope">
+            <p>之前金额：{{ scope.row.old_money }}</p>
+            <p>账变：{{ scope.row.money }}</p>
+            <p>之后金额：{{ scope.row.new_money }}</p>
           </template>
         </el-table-column>
 
-        <el-table-column label="消耗带宽数量" align="center">
+        <el-table-column label="操作信息" align="center">
           <template slot-scope="scope">
-            {{ scope.row.net_usage }}
+            <p>创建时间：{{ scope.row.create_at }}</p>
+<!--            <p>操作人：{{ scope.row.admin_name }}</p>-->
+<!--            <p>操作时间：{{ scope.row.check_time_str }}</p>-->
+<!--            <p>备注：{{ scope.row.remark }}</p>-->
           </template>
         </el-table-column>
-        <el-table-column label="带宽消耗TRX数量" align="center">
-          <template slot-scope="scope">
-            {{ scope.row.net_fee }}
-          </template>
-        </el-table-column>
-        <el-table-column label="消耗能量数量" align="center">
-          <template slot-scope="scope">{{ scope.row.energy_usage }}</template>
-        </el-table-column>
-        <el-table-column label="能量消耗TRX数量" align="center">
-          <template slot-scope="scope">{{ scope.row.energy_fee }}</template>
-        </el-table-column>
-        <el-table-column label="消耗的能量总量" align="center">
-          <template slot-scope="scope">
-            {{ scope.row.energy_usage_total }}
-          </template>
-        </el-table-column>
-        <el-table-column label="区块id" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.blockNumber }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="转账时间" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.block_timestamp | formatTime}}</p>
-          </template>
-        </el-table-column>
-<!--        <el-table-column label="操作信息" align="center">-->
-<!--          <template slot-scope="scope">-->
-<!--            <p>创建时间：{{ scope.row.create_at }}</p>-->
-<!--            <p>提款时间：{{ scope.row.trade_time_str }}</p>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
         <!-- <el-table-column label="操作" width="160" align="center">
           <template slot-scope="scope">
             <p>
@@ -185,17 +132,14 @@
   </div>
 </template>
 <script>
-import axios from 'axios'
-import TronWeb from "tronweb";
-import {formatDate} from "@/utils/date";
+import {
+  fetchList,
+} from "@/api/change";
 
 const defaultListQuery = {
   keyword: null,
   page: 1,
   limit: 10,
-  create_at: null,
-  fee: null,
-  address: "THUBvpNoCNVy3emYrhV2FwViWFrKriMzW4",
 };
 const defaultEditPromotion = {
   id: null,
@@ -209,14 +153,14 @@ export default {
   name: "formList",
   data() {
     return {
-      queryOptions: [
+      publishStatusOptions: [
         {
           value: 1,
-          label: "32000",
+          label: "启用",
         },
         {
-          value: 2,
-          label: "64000",
+          value: 0,
+          label: "禁用",
         },
       ],
       editInfo: {
@@ -224,154 +168,40 @@ export default {
       },
       operateType: null,
       listQuery: Object.assign({}, defaultListQuery),
-      list: [],
-      retList: null,
+      list: null,
       total: null,
-      data0: null,
-      data1: null,
-      tronweb: null,
-      listLoading: false,
-      queryLoading: true,
-      fingerprint:'',
-      countTotal:0,
-      countTotalTwo:0,
-      calculateTotal:0,
-      calculateTotalTwo:0,
+      listLoading: true,
       editPromotion: Object.assign({}, defaultEditPromotion),
       isEdit: false,
     };
   },
-  filters:{
-    formatType(type){
-      if(type===1){
-        return 'APP首页轮播';
-      }else{
-        return 'PC首页轮播';
-      }
-    },
-    formatTime(time){
-      if(time==null||time===''){
-        return 'N/A';
-      }
-      let date = new Date(time);
-      return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
-    },
-  },
   created() {
-    // this.getList();
-    const TronWeb = require('tronweb')
-     this.tronweb =   new TronWeb({
-      fullHost: 'https://api.trongrid.io',
-      headers: { "TRON-PRO-API-KEY": '6695790a-649c-4b95-bc79-450e154b3bd2' },
-      privateKey: ''
-    })
+    this.getList();
   },
   watch: {},
   methods: {
     //列表
     getList() {
       this.listLoading = true;
-      this.list=[];
-      this.countTotal=0;
-      this.countTotalTwo=0;
-      this.calculateTotalTwo=0;
-      this.calculateTotal=0;
-      this.fingerprint='';
-      this.queryLoading=false;
-      if(this.listQuery.create_at!=null) {//时间范围精确到小时
-        console.log('data0:',this.listQuery.create_at)
-        this.data0 = this.listQuery.create_at[0].getTime()
-        this.data1= this.listQuery.create_at[1].getTime()+86400000
-
-        console.log('data0',this.data0)
-        console.log('data1:',this.data1)
-      }
-      if(this.data0==null){
-        this.data0=0
-      }
-      if(this.data1==null){
-        let time=new Date();
-        this.data1 = time.getTime();
-      }
-      if(this.listQuery.address!=''){
-        this.getTransactions();
-      }
-    },
-    getTransactions(){
-      const  url="https://api.trongrid.io/v1/accounts/"+this.listQuery.address+"/transactions?only_confirmed=true&only_from=true&limit=200&min_timestamp="+this.data0+"&max_timestamp="+this.data1+"&fingerprint="+this.fingerprint;
-      axios.get(url,{
-        only_confirmed:true,
-        only_from:true,
-        limit:200,
-        min_timestamp:this.data0,
-        max_timestamp:this.data1,
-      }).then(res => {
-        this.retList=res.data.data
-        this.metaList=res.data.meta
-        this.retList.forEach(element => {
-          var item  = {};
-          if( element.raw_data.contract[0].type=='TriggerSmartContract'){
-            if(element.energy_usage_total>32000){
-              this.calculateTotalTwo=this.calculateTotalTwo+1;
-            }else{
-              this.calculateTotal=this.calculateTotal+1;
-            }
-            item.energy_usage = element.energy_usage;
-            item.net_usage = element.net_usage;
-            item.net_fee = element.net_fee;
-            item.txID = element.txID;
-            item.energy_usage_total = element.energy_usage_total;
-            item.energy_fee = element.energy_fee;
-            item.blockNumber = element.blockNumber;
-            item.block_timestamp = element.block_timestamp;
-            item.contract_address = this.tronweb.address.fromHex(element.raw_data.contract[0].parameter.value.contract_address);
-            item.owner_address =this.tronweb.address.fromHex(element.raw_data.contract[0].parameter.value.owner_address);
-
-           if(this.listQuery.fee==1){
-             if(element.energy_usage_total<=32000){
-               this.list.push(item);
-             }
-           }else if (this.listQuery.fee==2){
-             if(element.energy_usage_total>32000){
-               this.list.push(item);
-             }
-           }else{
-             this.list.push(item);
-           }
-
-          }
-
-        });
-        if(this.metaList.page_size==200){
-          this.fingerprint=this.metaList.fingerprint
-          this.getTransactions();
-        }else{
-          this.fingerprint='';
-          this.countTotalTwo=this.calculateTotalTwo
-          this.countTotal=this.calculateTotal
-          this.listLoading = false;
-          this.total = this.list.length;
-          this.queryLoading=true;
-        }
-
-      }).catch(error => {
-        this.queryLoading=true;
+      fetchList(this.listQuery).then((response) => {
         this.listLoading = false;
-        console.log(error)
-      })
+        if (response.code == 1) {
+          const data = response.data;
+          this.list = data.list;
+          this.total = data.page.total;
+        } else {
+          this.$message({
+            message: response.info,
+            type: "error",
+            duration: 3000,
+          });
+        }
+      });
     },
     //搜索
     handleSearchList() {
       this.listQuery.page = 1;
-      if(this.queryLoading){
-        this.getList();
-      }else{
-        this.$message({
-          message: "请等查询结果完毕在继续查询",
-          type: "error",
-          duration: 3000,
-        });
-      }
+      this.getList();
     },
     //重置搜索
     handleResetSearch() {
@@ -549,32 +379,6 @@ export default {
   },
 };
 </script>
-<style>
-
-.total-layout {
-  margin-top: 20px;
-}
-
-.total-frame {
-  /*border: 1px solid #DCDFE6;*/
-  padding: 20px;
-  height: 70px;
-}
-.total-title {
-  position: relative;
-  font-size: 16px;
-  color: #909399;
-  left: 70px;
-  /*top: -50px;*/
-}
-
-.total-value {
-  position: relative;
-  font-size: 18px;
-  color: #606266;
-  left: 70px;
-  /*top: -40px;*/
-}
-</style>
+<style></style>
 
 

@@ -108,14 +108,17 @@
             <p>{{ scope.row.name }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="钱包名称" align="center">
+        <el-table-column label="个人信息" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.wallet_name }}</p>
+            <p>邀请码:{{ scope.row.yqm }}</p>
+            <p>角色:{{ scope.row.is_agent=="1"  ? "代理":"会员" }}</p>
+            <p>账户余额:{{ scope.row.amount }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="钱包地址" align="center">
+        <el-table-column label="钱包信息" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.wallet_address }}</p>
+            <p>钱包名称:{{ scope.row.wallet_name }}</p>
+            <p>钱包地址:{{ scope.row.wallet_address }}</p>
           </template>
         </el-table-column>
         <el-table-column label="上级用户" align="center">

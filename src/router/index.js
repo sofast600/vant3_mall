@@ -88,20 +88,20 @@ export const asyncRouterMap = [
         path: 'member',
         name: 'member',
         component: () => import('@/views/caigou/member/index'),
-        meta: { title: '采购方列表', icon: 'product-list' }
+        meta: { title: '会员列表', icon: 'product-list' }
       },
       {
         path: 'memberAdd',
         name: 'memberAdd',
         component: () => import('@/views/caigou/member/add'),
-        meta: { title: '采购方增加' },
+        meta: { title: '会员增加' },
         hidden: true
       },
       {
         path: 'memberEdit',
         name: 'memberEdit',
         component: () => import('@/views/caigou/member/edit'),
-        meta: { title: '采购方修改' },
+        meta: { title: '会员修改' },
         hidden: true
       },
       {
@@ -127,6 +127,12 @@ export const asyncRouterMap = [
         name: 'query',
         component: () => import('@/views/caigou/query/index'),
         meta: { title: '地址查询', icon: 'product-list' }
+      },
+      {
+        path: 'change',
+        name: 'change',
+        component: () => import('@/views/caigou/change/index'),
+        meta: { title: '账变记录', icon: 'product-list' }
       },
     ]
   },
