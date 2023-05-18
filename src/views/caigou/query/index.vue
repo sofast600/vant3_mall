@@ -195,7 +195,7 @@ const defaultListQuery = {
   limit: 10,
   create_at: null,
   fee: null,
-  address: "THUBvpNoCNVy3emYrhV2FwViWFrKriMzW4",
+  address: "TNqCZC23VUN2TJX2EGH5ppfPMZ1M6WkjpV",
 };
 const defaultEditPromotion = {
   id: null,
@@ -229,10 +229,12 @@ export default {
       total: null,
       data0: null,
       data1: null,
+      time: null,
       tronweb: null,
       listLoading: false,
       queryLoading: true,
       fingerprint:'',
+      sum:0,
       countTotal:0,
       countTotalTwo:0,
       calculateTotal:0,
@@ -294,20 +296,25 @@ export default {
         this.data1 = time.getTime();
       }
       if(this.listQuery.address!=''){
-         var  time=this.data1-this.data0;
-        if(time==86400000){
+        //  var  time=this.data1-this.data0;
+        // if(time==86400000){
+       this.time=(this.listQuery.create_at[1].getTime()-this.listQuery.create_at[0].getTime()+86400000)/8
           this.data0 = this.listQuery.create_at[0].getTime()
-          this.data1= this.listQuery.create_at[1].getTime()+10800000-1
-          for(var i = 0; i < 8; i++){
-            this.data0 =this.data0+10800000;
-            this.data1=  this.data1+10800000;
-            this.getTransactions();
-            // this.data1= this.data1-1
-          }
+          this.data1= this.listQuery.create_at[0].getTime()-1+this.time
+         this.getTransactions();
 
-        }else{
-          this.getTransactions();
-        }
+        //     this.data0 = this.listQuery.create_at[0].getTime()
+        //     this.data1= this.listQuery.create_at[0].getTime()-1+10800000
+        //
+        //   for(var i = 0; i < 8; i++){
+        //     this.data0 =this.data0+10800000;
+        //     this.data1=  this.data1+10800000;
+        //     this.getTransactions();
+        //   }
+        //
+        // }else{
+        //   this.getTransactions();
+        // }
       }
     },
     getTransactions(){
@@ -319,62 +326,73 @@ export default {
         min_timestamp:this.data0,
         max_timestamp:this.data1,
       }).then(res => {
-        this.retList=res.data.data
-        this.metaList=res.data.meta
-        this.retList.forEach(element => {
-          var item  = {};
-          if( element.raw_data.contract[0].type=='TriggerSmartContract'){
-            if(element.energy_usage_total>32000){
-              this.calculateTotalTwo=this.calculateTotalTwo+1;
-            }else{
-              this.calculateTotal=this.calculateTotal+1;
+        // if(res.success){
+          this.retList=res.data.data
+          this.metaList=res.data.meta
+          this.retList.forEach(element => {
+            var item  = {};
+            if( element.raw_data.contract[0].type=='TriggerSmartContract'){
+              if(element.energy_usage_total>32000){
+                this.calculateTotalTwo=this.calculateTotalTwo+1;
+              }else{
+                this.calculateTotal=this.calculateTotal+1;
+              }
+              item.energy_usage = element.energy_usage;
+              item.net_usage = element.net_usage;
+              item.net_fee = element.net_fee;
+              item.txID = element.txID;
+              item.energy_usage_total = element.energy_usage_total;
+              item.energy_fee = element.energy_fee;
+              item.blockNumber = element.blockNumber;
+              item.block_timestamp = element.block_timestamp;
+              item.contract_address = this.tronweb.address.fromHex(element.raw_data.contract[0].parameter.value.contract_address);
+              item.owner_address =this.tronweb.address.fromHex(element.raw_data.contract[0].parameter.value.owner_address);
+
+              if(this.listQuery.fee==1){
+                if(element.energy_usage_total<=32000){
+                  this.list.push(item);
+                }
+              }else if (this.listQuery.fee==2){
+                if(element.energy_usage_total>32000){
+                  this.list.push(item);
+                }
+              }else{
+                this.list.push(item);
+              }
             }
-            item.energy_usage = element.energy_usage;
-            item.net_usage = element.net_usage;
-            item.net_fee = element.net_fee;
-            item.txID = element.txID;
-            item.energy_usage_total = element.energy_usage_total;
-            item.energy_fee = element.energy_fee;
-            item.blockNumber = element.blockNumber;
-            item.block_timestamp = element.block_timestamp;
-            item.contract_address = this.tronweb.address.fromHex(element.raw_data.contract[0].parameter.value.contract_address);
-            item.owner_address =this.tronweb.address.fromHex(element.raw_data.contract[0].parameter.value.owner_address);
+          });
+          if(this.metaList.page_size==200){
+            this.fingerprint=this.metaList.fingerprint
+            this.getTransactions();
+          }else{
+            if( this.sum<7){
+              this.fingerprint='';
+              this.sum= this.sum+1
+              this.data0 =this.data0+this.time;
+              this.data1=  this.data1+this.time;
+              this.getTransactions();
+            }else{
+              this.fingerprint='';
+              this.sum=0;
+              this.countTotalTwo=this.calculateTotalTwo
+              this.countTotal=this.calculateTotal
+              this.listLoading = false;
+              this.total = this.list.length;
+              this.queryLoading=true;
+            }
 
-           if(this.listQuery.fee==1){
-             if(element.energy_usage_total<=32000){
-               // for(let k = 1; k < this.list.length; k++){
-               //   if( nums[k] == item.block_timestamp ){
-               //
-               //   }else{
-               //
-               //   }
-               //
-               // }
-               this.list.push(item);
-
-             }
-           }else if (this.listQuery.fee==2){
-             if(element.energy_usage_total>32000){
-               this.list.push(item);
-             }
-           }else{
-             this.list.push(item);
-           }
 
           }
 
-        });
-        if(this.metaList.page_size==200){
-          this.fingerprint=this.metaList.fingerprint
-          this.getTransactions();
-        }else{
-          this.fingerprint='';
-          this.countTotalTwo=this.calculateTotalTwo
-          this.countTotal=this.calculateTotal
-          this.listLoading = false;
-          this.total = this.list.length;
-          this.queryLoading=true;
-        }
+        // }else{
+        //   this.fingerprint='';
+          // this.countTotalTwo=this.calculateTotalTwo
+          // this.countTotal=this.calculateTotal
+          // this.listLoading = false;
+          // this.total = this.list.length;
+          // this.queryLoading=true;
+        // }
+
 
       }).catch(error => {
         this.queryLoading=true;
