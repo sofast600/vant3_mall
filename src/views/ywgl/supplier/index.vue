@@ -174,6 +174,11 @@
           <template slot-scope="scope">
             <p>
               <el-button
+                  size="mini"
+                  @click="handleFreezeForm(scope.$index, scope.row)"
+              >质押
+              </el-button>
+              <el-button
                 size="mini"
                 @click="handleUpdateForm(scope.$index, scope.row)"
                 >编辑
@@ -312,6 +317,9 @@ export default {
     //编辑-修改
     handleUpdateForm(index, row) {
       this.$router.push({path: '/ywgl/supplierEdit', query: {id: row.id}})
+    },
+    handleFreezeForm(index, row) {
+      this.$router.push({ path: "/ywgl/freeze", query: {id: row.id} });
     },
     //保存表单提交数据
     handleDialogConfirm() {

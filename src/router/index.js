@@ -75,6 +75,13 @@ export const asyncRouterMap = [
         meta: { title: '供应商修改' },
         hidden: true
       },
+      {
+        path: 'freeze',
+        name: 'freeze',
+        component: () => import('@/views/ywgl/supplier/freeze'),
+        meta: { title: '供应商修改' },
+        hidden: true
+      },
     ]
   },
   {
