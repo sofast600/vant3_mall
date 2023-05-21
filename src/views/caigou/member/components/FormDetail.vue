@@ -19,6 +19,11 @@
         <el-input v-model="editInfo.password_unencrypted"></el-input>
       </el-form-item>
 
+      <el-form-item label="代理单价" prop="sun_price" v-if="editInfo.is_agent==1">
+        <el-input v-model="editInfo.sun_price"></el-input>
+      </el-form-item>
+
+
         <el-form-item label="角色" prop="wallet_address">
 <!--          <el-input v-model="editInfo.password_unencrypted"></el-input>-->
           <el-select v-model="editInfo.is_agent" placeholder="请选择角色" clearable>
