@@ -112,7 +112,7 @@
           <template slot-scope="scope">
             <p>邀请码:{{ scope.row.yqm }}</p>
             <p>角色:{{ scope.row.is_agent=="1"  ? "代理":"会员" }}</p>
-            <p>账户余额:{{ scope.row.amount }}</p>
+            <p>能量余额:{{ scope.row.amount }}</p>
           </template>
         </el-table-column>
         <el-table-column label="钱包信息" align="center">

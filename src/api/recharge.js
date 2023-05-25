@@ -9,3 +9,20 @@ export function fetchList(params) {
   })
 }
 
+
+export function pass(params) {
+  return request({
+    url: '/api/user.recharge/pass',
+    method:'post',
+    headers:{'Content-Type': 'application/json'},
+    params:params
+  })
+}
+//列表
+export function unpass(params) {
+  return request({
+    url: '/api/user.recharge/unpass',
+    method: 'post',
+    params: params
+  })
+}

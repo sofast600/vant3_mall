@@ -75,6 +75,9 @@
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets"></i>
       <span>数据列表</span>
+      <el-button class="btn-add"  size="mini">
+        一键回收
+      </el-button>
     </el-card>
     <div class="table-container">
       <el-table
@@ -92,21 +95,27 @@
         <el-table-column label="ID" width="80" align="center">
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
+        <el-table-column label="用户名" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.name }}</p>
+          </template>
+        </el-table-column>
         <el-table-column label="订单号" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.order_no }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="区块ID" align="center">
+        <el-table-column label="链上信息" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.block_id }}</p>
+            <p>区块ID:{{ scope.row.block_id }}</p>
+            <p>哈希:{{ scope.row.hashid }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="哈希" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.hashid }}</p>
-          </template>
-        </el-table-column>
+<!--        <el-table-column label="哈希" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>{{ scope.row.hashid }}</p>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
         <el-table-column label="交易类型" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.transaction_type_str }}</p>
@@ -127,29 +136,30 @@
             <p>{{ scope.row.energy_address }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="出售周期" align="center">
+<!--        <el-table-column label="出售周期" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>{{ scope.row.sales_cycle }}</p>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column label="出售数量" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>{{ scope.row.sales_num }}</p>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column label="订单数量" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>{{ scope.row.money }}</p>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column label="资源单价" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>{{ scope.row.resource_price }}</p>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+        <el-table-column label="状态" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.sales_cycle }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="出售数量" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.sales_num }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="订单金额" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.money }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="资源单价" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.resource_price }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="到账状态" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.result_status_str }}</p>
+            <p>到账状态:{{scope.row.result_status_str }}</p>
+            <p>资源状态:{{scope.row.resource_status==1 ? "已到期":"未到期" }}</p>
           </template>
         </el-table-column>
         <el-table-column label="购买能量数量" align="center">
@@ -180,7 +190,23 @@
 <!--        </el-table-column>-->
         <el-table-column label="下单时间" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.create_at }}</p>
+            <p>开始时间:{{ scope.row.begin_time | formatTime }}</p>
+            <p>结束时间:{{ scope.row.end_time | formatTime }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="160" align="center">
+          <template slot-scope="scope">
+            <p >
+              <el-button
+                  size="mini"
+                  @click="handleShowRecycle(scope.$index, scope.row)">能量回收
+              </el-button>
+<!--              <el-button-->
+<!--                  size="mini"-->
+<!--                  @click="handleUpdateProduct(scope.$index, scope.row)">编辑-->
+<!--              </el-button>-->
+            </p>
+
           </template>
         </el-table-column>
       </el-table>
@@ -202,6 +228,7 @@
 </template>
 <script>
 import { fetchList } from "@/api/order";
+import {formatDate} from "@/utils/date";
 
 const defaultListQuery = {
   keyword: null,
@@ -217,6 +244,16 @@ const defaultEditPromotion = {
 };
 export default {
   name: "formList",
+  filters:{
+    formatTime(time) {
+      if(time==null||time===''){
+        return 'N/A';
+      }
+      time=parseInt(time)
+      let date = new Date(time);
+      return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+    },
+  },
   data() {
     return {
       orderStatusOptions: [
@@ -401,6 +438,24 @@ export default {
         }
       });
       this.getList();
+    },
+    handleShowRecycle(index, row) {
+      this.$confirm("是否要进行能量回收操作?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        let  time=new Date().getTime();
+          if(row.end_time>time){
+            this.$message({
+              message: "能量到期时间未到期，无法回收",
+              type: "warning",
+              duration: 1000,
+            });
+          }else{
+
+          }
+      });
     },
 
     handleShowForm(index, row) {

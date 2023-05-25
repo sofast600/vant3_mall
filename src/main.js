@@ -20,6 +20,13 @@ Vue.use(ElementUI, { locale })
 Vue.use(VCharts)
 
 Vue.config.productionTip = false
+// 引入时间格式化组件库
+import moment from 'moment'
+// 定义时间过滤器 date是时间过滤器名称
+Vue.filter('date', function (n) {
+  const result = moment(n * 1000).format('YYYY-MM-DD hh:mm:ss') // 转换时间格式
+  return result // 返回出去 否则不会生效
+})
 
 // new Vue({
 //   el: '#app',

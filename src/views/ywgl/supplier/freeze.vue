@@ -106,7 +106,7 @@ export default {
               this.txid=broastTx.txid;
               this.editInfo.id = this.$route.query.id;
               const  tx= await tronweb.trx.getAccount( this.editInfo.address);
-              this.editInfo.balance=tx.balance;
+              this.editInfo.balance=tx.balance/1000000;
               updateSupplier(this.editInfo).then((response) => {
                 this.$refs[formName].resetFields();
                 if (response.code == 1) {
@@ -122,59 +122,14 @@ export default {
                 }
                 this.$router.back();
               });
-              // Toast.clear()
-
             }else{
-              // Toast.clear()
-              // Toast.fail(this.$t('p_common.e5'))
+
               return
             }
             // }
             //
           }, 1000)
-            // this.editInfo.id = this.$route.query.id;
-            // updateSupplier(this.editInfo).then((response) => {
-            //   this.$refs[formName].resetFields();
-            //   if (response.code == 1) {
-            //     this.$message({
-            //       message: "修改成功！",
-            //       type: "success",
-            //     });
-            //   } else {
-            //     this.$message({
-            //       message: response.info,
-            //       type: "error",
-            //     });
-            //   }
-            //   this.$router.back();
-            // });
-          // } else {
-          //   createSupplier(this.editInfo).then((response) => {
-          //     this.$refs[formName].resetFields();
-          //     this.editInfo = Object.assign({}, defaultSupplier);
-          //     if (response.code == 1) {
-          //       this.$message({
-          //         message: "创建成功！",
-          //         type: "success",
-          //       });
-          //     } else {
-          //       this.$message({
-          //         message: response.info,
-          //         type: "error",
-          //       });
-          //     }
-          //     this.$router.back();
-          //   });
-          // }
-        // } else {
-        //   this.$message({
-        //     message: "验证失败",
-        //     type: "error",
-        //     duration: 1000,
-        //   });
-        //   return false;
-        // }
-      // });
+
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();

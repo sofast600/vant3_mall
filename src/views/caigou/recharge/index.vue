@@ -82,6 +82,16 @@
             <p>用户名：{{ scope.row.name }}</p>
           </template>
         </el-table-column>
+        <el-table-column label="上传凭证" width="200" align="center">
+          <template slot-scope="scope">
+            <el-image
+                style="width: 100px; height: 100px"
+                :src="scope.row.image"
+                :preview-src-list="[scope.row.image]"
+                :fit="fit"></el-image>
+          </template>
+        </el-table-column>
+
         <el-table-column label="充值信息" align="center">
           <template slot-scope="scope">
             <p>充值总次数：{{ scope.row.number_total }}</p>
@@ -107,10 +117,14 @@
         </el-table-column>
         <el-table-column label="操作信息" align="center">
           <template slot-scope="scope">
-            <p>创建时间：{{ scope.row.create_at }}</p>
-            <p>操作人：{{ scope.row.admin_name }}</p>
-            <p>操作时间：{{ scope.row.check_time_str }}</p>
-            <p>备注：{{ scope.row.remark }}</p>
+<!--            <el-button type="success">审核通过</el-button>-->
+<!--            <el-button type="danger">审核拒绝</el-button>-->
+            <el-button v-if="scope.row.status==1" type="text" size="small" @click="handlePassForm(scope.$index,scope.row)">审核通过</el-button>
+            <el-button v-if="scope.row.status==1" type="text" size="small" @click="handleUnPassForm(scope.$index,scope.row)">审核拒绝</el-button>
+<!--            <p>创建时间：{{ scope.row.create_at }}</p>-->
+<!--            <p>操作人：{{ scope.row.admin_name }}</p>-->
+<!--            <p>操作时间：{{ scope.row.check_time_str }}</p>-->
+<!--            <p>备注：{{ scope.row.remark }}</p>-->
           </template>
         </el-table-column>
         <!-- <el-table-column label="操作" width="160" align="center">
@@ -145,11 +159,25 @@
       >
       </el-pagination>
     </div>
+    <el-dialog
+        title="提示"
+        :visible.sync="editInfo.dialogVisible"
+        width="30%"
+        :before-close="handleClose">
+      <span v-if="isPass">確定要审核通过吗</span>
+      <span v-else>確定要审核拒绝吗</span>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="editInfo.dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="handleConfirmForm">确 定</el-button>
+  </span>
+    </el-dialog>
   </div>
 </template>
 <script>
 import {
   fetchList,
+  pass,
+  unpass
 } from "@/api/recharge";
 
 const defaultListQuery = {
@@ -159,11 +187,10 @@ const defaultListQuery = {
 };
 const defaultEditPromotion = {
   id: null,
-  title: null,
-  secret_key: null,
-  link: null,
-  remark: null,
-  status: 1,
+  order_amount: null,
+  trade_no: null,
+
+  // status: 1,
 };
 export default {
   name: "formList",
@@ -189,6 +216,7 @@ export default {
       listLoading: true,
       editPromotion: Object.assign({}, defaultEditPromotion),
       isEdit: false,
+      isPass: false,
     };
   },
   created() {
@@ -234,6 +262,63 @@ export default {
       this.listQuery.page = val;
       this.getList();
     },
+    //通过审核
+    handlePassForm(index, row) {
+      this.editInfo.dialogVisible = true;
+      this.isPass=true;
+      this.editPromotion = Object.assign({}, row);
+    },
+    handleUnPassForm(index, row) {
+      this.editInfo.dialogVisible = true;
+      this.isPass=false;
+      this.editPromotion = Object.assign({}, row);
+    },
+
+    //通过审核
+    handleConfirmForm() {
+      // console.log(this.editPromotion);
+
+      let params ={
+        order_amount: this.editPromotion.order_amount,
+        trade_no: this.editPromotion.trade_no,
+      };
+      if(this.isPass){
+        pass(params).then((response) => {
+          if (response.code == 1) {
+            this.$message({
+              message: "审核成功！",
+              type: "success",
+            });
+            this.editInfo.dialogVisible = false;
+            this.getList();
+          } else {
+            this.$message({
+              message: response.info,
+              type: "error",
+            });
+          }
+        });
+
+      }else{
+        unpass(params).then((response) => {
+          if (response.code == 1) {
+            this.$message({
+              message: "审核拒绝成功！",
+              type: "success",
+            });
+            this.editInfo.dialogVisible = false;
+            this.getList();
+          } else {
+            this.$message({
+              message: response.info,
+              type: "error",
+            });
+          }
+        });
+      }
+
+    },
+
     //编辑-新增
     handleAddForm() {
       this.editInfo.dialogVisible = true;

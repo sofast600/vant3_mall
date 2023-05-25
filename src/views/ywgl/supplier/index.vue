@@ -170,16 +170,18 @@
         <el-table-column label="排序" width="100" align="center">
           <template slot-scope="scope">{{ scope.row.sort }}</template>
         </el-table-column>
-        <el-table-column label="操作" width="160" align="center">
+        <el-table-column label="操作" width="200" align="center">
           <template slot-scope="scope">
             <p>
               <el-button
                   size="mini"
+                  type="text"
                   @click="handleFreezeForm(scope.$index, scope.row)"
               >质押
               </el-button>
               <el-button
                 size="mini"
+                type="text"
                 @click="handleUpdateForm(scope.$index, scope.row)"
                 >编辑
               </el-button>
@@ -188,6 +190,13 @@
                 type="danger"
                 @click="handleDelete(scope.$index, scope.row)"
                 >删除
+              </el-button>
+
+              <el-button
+                  size="mini"
+                  type="text"
+                  @click="handleRefresh(scope.$index, scope.row)"
+              >刷新
               </el-button>
             </p>
           </template>
@@ -215,8 +224,9 @@ import {
   createSupplier as createData,
   updateSupplier as updateData,
   deleteSupplier as deleteData,
-  updateStatus,
+  updateStatus, updateSupplier,
 } from "@/api/supplier";
+import TronWeb from "tronweb";
 
 const defaultListQuery = {
   keyword: null,
@@ -317,6 +327,35 @@ export default {
     //编辑-修改
     handleUpdateForm(index, row) {
       this.$router.push({path: '/ywgl/supplierEdit', query: {id: row.id}})
+    },
+
+    handleRefresh(index, row) {
+      const TronWeb = require('tronweb')
+      const tronweb =   new TronWeb({
+        fullHost: 'https://api.trongrid.io',
+        headers: { "TRON-PRO-API-KEY": '6695790a-649c-4b95-bc79-450e154b3bd2' },
+        privateKey: ''
+      })
+      var obj = setInterval(async ()=>{
+            clearInterval(obj)
+            const  tx= await tronweb.trx.getAccount( row.address);
+            row.balance=tx.balance/1000000;
+              updateSupplier(row).then((response) => {
+                if (response.code == 1) {
+                  this.$message({
+                    message: "修改成功！",
+                    type: "success",
+                  });
+                  this.getList()
+                } else {
+                  this.$message({
+                    message: response.info,
+                    type: "error",
+                  });
+                }
+              });
+    }, 1000)
+
     },
     handleFreezeForm(index, row) {
       this.$router.push({ path: "/ywgl/freeze", query: {id: row.id} });

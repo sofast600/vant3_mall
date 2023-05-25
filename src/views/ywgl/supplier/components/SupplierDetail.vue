@@ -13,9 +13,9 @@
       <el-form-item label="地址：">
         <el-input v-model="editInfo.address"></el-input>
       </el-form-item>
-      <el-form-item label="私钥：">
-        <el-input v-model="editInfo.privateKey"></el-input>
-      </el-form-item>
+<!--      <el-form-item label="私钥：">-->
+<!--        <el-input v-model="editInfo.privateKey"></el-input>-->
+<!--      </el-form-item>-->
       <el-form-item label="排序：" prop="sort">
         <el-input v-model.number="editInfo.sort"></el-input>
       </el-form-item>
@@ -38,6 +38,7 @@
 </template>
 <script>
 import { createSupplier, getSupplier, updateSupplier } from "@/api/supplier";
+import TronWeb from "tronweb";
 const defaultSupplier = {
   title: "",
   address: "",
@@ -81,41 +82,53 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          if (this.isEdit) {
-            this.editInfo.id = this.$route.query.id;
-            updateSupplier(this.editInfo).then((response) => {
-              this.$refs[formName].resetFields();
-              if (response.code == 1) {
-                this.$message({
-                  message: "修改成功！",
-                  type: "success",
-                });
-              } else {
-                this.$message({
-                  message: response.info,
-                  type: "error",
-                });
-              }
-              this.$router.back();
-            });
-          } else {
-            createSupplier(this.editInfo).then((response) => {
-              this.$refs[formName].resetFields();
-              this.editInfo = Object.assign({}, defaultSupplier);
-              if (response.code == 1) {
-                this.$message({
-                  message: "创建成功！",
-                  type: "success",
-                });
-              } else {
-                this.$message({
-                  message: response.info,
-                  type: "error",
-                });
-              }
-              this.$router.back();
-            });
-          }
+          const TronWeb = require('tronweb')
+          const tronweb =   new TronWeb({
+            fullHost: 'https://api.trongrid.io',
+            headers: { "TRON-PRO-API-KEY": '6695790a-649c-4b95-bc79-450e154b3bd2' },
+            privateKey: ''
+          })
+          var obj = setInterval(async ()=>{
+              clearInterval(obj)
+              const  tx= await tronweb.trx.getAccount( this.editInfo.address);
+              this.editInfo.balance=tx.balance/1000000;
+            if (this.isEdit) {
+              this.editInfo.id = this.$route.query.id;
+              updateSupplier(this.editInfo).then((response) => {
+                this.$refs[formName].resetFields();
+                if (response.code == 1) {
+                  this.$message({
+                    message: "修改成功！",
+                    type: "success",
+                  });
+                } else {
+                  this.$message({
+                    message: response.info,
+                    type: "error",
+                  });
+                }
+                this.$router.back();
+              });
+            } else {
+              createSupplier(this.editInfo).then((response) => {
+                this.$refs[formName].resetFields();
+                this.editInfo = Object.assign({}, defaultSupplier);
+                if (response.code == 1) {
+                  this.$message({
+                    message: "创建成功！",
+                    type: "success",
+                  });
+                } else {
+                  this.$message({
+                    message: response.info,
+                    type: "error",
+                  });
+                }
+                this.$router.back();
+              });
+            }
+          }, 1000)
+
         } else {
           this.$message({
             message: "验证失败",
