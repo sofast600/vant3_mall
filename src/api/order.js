@@ -9,3 +9,12 @@ export function fetchList(params) {
   })
 }
 
+//列表
+export function recycle(params) {
+  return request({
+    url: '/api/busy.order/recycle',
+    method: 'post',
+    params: params
+  })
+}
+

@@ -159,7 +159,12 @@
         <el-table-column label="状态" align="center">
           <template slot-scope="scope">
             <p>到账状态:{{scope.row.result_status_str }}</p>
-            <p>资源状态:{{scope.row.resource_status==1 ? "已到期":"未到期" }}</p>
+            <p>资源状态:{{scope.row.resource_status==1 ? "已回收":"未回收" }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="代理转账TRX" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.money }}</p>
           </template>
         </el-table-column>
         <el-table-column label="购买能量数量" align="center">
@@ -198,6 +203,7 @@
           <template slot-scope="scope">
             <p >
               <el-button
+                  v-if="scope.row.resource_status==0"
                   size="mini"
                   @click="handleShowRecycle(scope.$index, scope.row)">能量回收
               </el-button>
@@ -227,7 +233,7 @@
   </div>
 </template>
 <script>
-import { fetchList } from "@/api/order";
+import { fetchList,recycle } from "@/api/order";
 import {formatDate} from "@/utils/date";
 
 const defaultListQuery = {
@@ -445,17 +451,50 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-        let  time=new Date().getTime();
-          if(row.end_time>time){
+        const TronWeb = require("tronweb");
+        const tronweb = new TronWeb({
+          fullHost: "https://api.trongrid.io",
+          headers: {"TRON-PRO-API-KEY": "6695790a-649c-4b95-bc79-450e154b3bd2"},
+          privateKey:
+              "88910afb27e6423d297ea5b30a55da51675022bbbe147caf11c7c4c4347991f9",
+        });
+        const tx = await tronweb.transactionBuilder.undelegateResource(
+            price,
+            to,
+            "ENERGY",
+            from,
+            false
+        );
+      //   let  time=new Date().getTime();
+      //     if(row.end_time>time){
+      //       this.$message({
+      //         message: "能量到期时间未到期，无法回收",
+      //         type: "warning",
+      //         duration: 1000,
+      //       });
+      //     }else{
+      //
+      //     }
+        this.editPromotion = Object.assign({}, row);
+        let params ={
+          order_no: this.editPromotion.order_no,
+        };
+        recycle(params).then((response) => {
+          if (response.code == 1) {
             this.$message({
-              message: "能量到期时间未到期，无法回收",
-              type: "warning",
-              duration: 1000,
+              message: "回收成功！",
+              type: "success",
             });
-          }else{
-
+          } else {
+            this.$message({
+              message: response.info,
+              type: "error",
+            });
           }
+        });
+        this.getList();
       });
+
     },
 
     handleShowForm(index, row) {
