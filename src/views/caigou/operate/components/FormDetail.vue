@@ -21,7 +21,7 @@
         <el-input v-model="editInfo.password_unencrypted"></el-input>
       </el-form-item>
 
-      <el-form-item label="代理单价" prop="sun_price" v-if="editInfo.is_agent==2">
+      <el-form-item label="代理单价" prop="sun_price" v-if="editInfo.is_agent==1">
         <el-input v-model="editInfo.sun_price"></el-input>
       </el-form-item>
 
@@ -39,25 +39,13 @@
           </el-select>
         </el-form-item>
 
-      <el-form-item label="上级运营" prop="name" v-if="editInfo.is_agent==2">
-      <el-select v-model="editInfo.pid" placeholder="请选择上级运营" clearable>
-        <el-option
-            v-for="item in optionList"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-        >
-        </el-option>
-      </el-select>
-    </el-form-item>
-
-      <el-form-item label="供应商钱包" prop="name" v-if="editInfo.is_agent==3">
-        <el-select v-model="editInfo.sup_ids" multiple placeholder="供应商钱包" clearable>
+      <el-form-item label="上级名" prop="name">
+        <el-select v-model="editInfo.agent_name" placeholder="请选择上级名" clearable>
           <el-option
-              v-for="item in supplierList"
-              :key="item.id"
-              :label="item.title"
-              :value="item.id"
+              v-for="item in roleOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
           >
           </el-option>
         </el-select>
@@ -74,7 +62,7 @@
 import {
   getMember as getData,
   updateMember as updateData,
-  createMember as createData, chooseRoleList,
+  createMember as createData,
 } from "@/api/user";
 const defaultData = {
   name: "",
@@ -83,9 +71,7 @@ const defaultData = {
   password_unencrypted: "",
   status: 1,
   is_agent: '',
-  agent_mid: '',
-  pid: '',
-  sup_ids: '',
+  agent_name: '',
 };
 export default {
   name: "MemberDetail",
@@ -98,8 +84,6 @@ export default {
   data() {
     return {
       editInfo: Object.assign({}, defaultData),
-      optionList:null,
-      supplierList:null,
       roleOptions: [
         {
           value: 3,
@@ -121,7 +105,6 @@ export default {
     };
   },
   created() {
-    this.getList();
     if (this.isEdit) {
       let params = { id: this.$route.query.id };
       getData(params).then((response) => {
@@ -139,23 +122,6 @@ export default {
     }
   },
   methods: {
-    getList() {
-      this.listLoading = true;
-      chooseRoleList(this.listQuery).then((response) => {
-        this.listLoading = false;
-        if (response.code == 1) {
-          const data = response.data;
-          this.optionList = data.optionList;
-          this.supplierList= data.supplierList;
-        } else {
-          this.$message({
-            message: response.info,
-            type: "error",
-            duration: 3000,
-          });
-        }
-      });
-    },
     onSubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {

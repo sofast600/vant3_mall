@@ -21,7 +21,7 @@
       <div style="margin-top: 15px">
         <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
           <el-form-item label="输入搜索：">
-            <el-input v-model="listQuery.keyword" class="input-width" placeholder="帐号/姓名" clearable></el-input>
+            <el-input v-model="listQuery.username" class="input-width" placeholder="帐号" clearable></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -46,13 +46,13 @@
           <template slot-scope="scope">{{scope.row.nickName}}</template>
         </el-table-column>
         <el-table-column label="邮箱" align="center">
-          <template slot-scope="scope">{{scope.row.email}}</template>
+          <template slot-scope="scope">{{scope.row.contact_mail}}</template>
         </el-table-column>
         <el-table-column label="添加时间" width="160" align="center">
-          <template slot-scope="scope">{{scope.row.createTime | formatDateTime}}</template>
+          <template slot-scope="scope">{{scope.row.create_at }}</template>
         </el-table-column>
         <el-table-column label="最后登录" width="160" align="center">
-          <template slot-scope="scope">{{scope.row.loginTime | formatDateTime}}</template>
+          <template slot-scope="scope">{{scope.row.login_at }}</template>
         </el-table-column>
         <el-table-column label="是否启用" width="140" align="center">
           <template slot-scope="scope">
@@ -106,10 +106,10 @@
           <el-input v-model="admin.username" style="width: 250px"></el-input>
         </el-form-item>
         <el-form-item label="姓名：">
-          <el-input v-model="admin.nickName" style="width: 250px"></el-input>
+          <el-input v-model="admin.nickname" style="width: 250px"></el-input>
         </el-form-item>
         <el-form-item label="邮箱：">
-          <el-input v-model="admin.email" style="width: 250px"></el-input>
+          <el-input v-model="admin.contact_mail" style="width: 250px"></el-input>
         </el-form-item>
         <el-form-item label="密码：">
           <el-input v-model="admin.password"  type="password" style="width: 250px"></el-input>
@@ -136,11 +136,11 @@
       title="分配角色"
       :visible.sync="allocDialogVisible"
       width="30%">
-      <el-select v-model="allocRoleIds" multiple placeholder="请选择" size="small" style="width: 80%">
+      <el-select v-model="allocRoleIds"  placeholder="请选择" size="small" style="width: 80%">
         <el-option
           v-for="item in allRoleList"
           :key="item.id"
-          :label="item.name"
+          :label="item.title"
           :value="item.id">
         </el-option>
       </el-select>
@@ -159,14 +159,14 @@
   const defaultListQuery = {
     pageNum: 1,
     pageSize: 10,
-    keyword: null
+    username: null
   };
   const defaultAdmin = {
     id: null,
     username: null,
     password: null,
-    nickName: null,
-    email: null,
+    nickname: null,
+    contact_mail: null,
     note: null,
     status: 1
   };
@@ -192,6 +192,14 @@
       this.getAllRoleList();
     },
     filters: {
+      formatTime(time) {
+        if(time==null||time===''){
+          return 'N/A';
+        }
+        time=parseInt(time)
+        let date = new Date(time);
+        return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+      },
       formatDateTime(time) {
         if (time == null || time === '') {
           return 'N/A';
@@ -228,7 +236,8 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          updateStatus(row.id, {status: row.status}).then(response => {
+          let params = { id: row.id, status: row.status };
+          updateStatus(params).then(response => {
             this.$message({
               type: 'success',
               message: '修改成功!'
@@ -248,7 +257,11 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteAdmin(row.id).then(response => {
+          let ids = [];
+          ids.push(row.id);
+          let params = new URLSearchParams();
+          params.append("ids", ids);
+          deleteAdmin(params).then(response => {
             this.$message({
               type: 'success',
               message: '删除成功!'
@@ -269,7 +282,7 @@
           type: 'warning'
         }).then(() => {
           if (this.isEdit) {
-            updateAdmin(this.admin.id,this.admin).then(response => {
+            updateAdmin(this.admin).then(response => {
               this.$message({
                 message: '修改成功！',
                 type: 'success'
@@ -296,7 +309,7 @@
           type: 'warning'
         }).then(() => {
           let params = new URLSearchParams();
-          params.append("adminId", this.allocAdminId);
+          params.append("id", this.allocAdminId);
           params.append("roleIds", this.allocRoleIds);
           allocRole(params).then(response => {
             this.$message({
@@ -326,15 +339,15 @@
         });
       },
       getRoleListByAdmin(adminId) {
-        getRoleByAdmin(adminId).then(response => {
-          let allocRoleList = response.data;
-          this.allocRoleIds=[];
-          if(allocRoleList!=null&&allocRoleList.length>0){
-            for(let i=0;i<allocRoleList.length;i++){
-              this.allocRoleIds.push(allocRoleList[i].id);
-            }
-          }
-        });
+        // getRoleByAdmin(adminId).then(response => {
+        //   let allocRoleList = response.data;
+        //   this.allocRoleIds=[];
+        //   if(allocRoleList!=null&&allocRoleList.length>0){
+        //     for(let i=0;i<allocRoleList.length;i++){
+        //       this.allocRoleIds.push(allocRoleList[i].id);
+        //     }
+        //   }
+        // });
       }
     }
   }

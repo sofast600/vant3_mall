@@ -27,26 +27,36 @@
           size="small"
           label-width="140px"
         >
-          <el-form-item label="供应商名称：">
+          <el-form-item label="账户ID：">
             <el-input
               style="width: 203px"
-              v-model="listQuery.title"
-              placeholder="供应商名称"
+              v-model="listQuery.id"
+              placeholder="账户ID"
             ></el-input>
           </el-form-item>
-          <el-form-item label="trx地址：">
+          <el-form-item label="用户名：">
             <el-input
               style="width: 203px"
-              v-model="listQuery.address"
-              placeholder="trx地址"
+              v-model="listQuery.name"
+              placeholder="用户名"
             ></el-input>
           </el-form-item>
-          <el-form-item label="授权状态：">
-            <el-select
-              v-model="listQuery.is_authorized"
-              placeholder="全部"
-              clearable
-            >
+          <el-form-item label="钱包名称：">
+            <el-input
+              style="width: 203px"
+              v-model="listQuery.wallet_name"
+              placeholder="钱包名称"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="钱包地址：">
+            <el-input
+              style="width: 203px"
+              v-model="listQuery.wallet_address"
+              placeholder="钱包名称"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="bot状态：">
+            <el-select v-model="listQuery.is_bot" placeholder="全部" clearable>
               <el-option
                 v-for="item in authStatusOptions"
                 :key="item.value"
@@ -56,7 +66,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="状态：">
+          <el-form-item label="账户状态：">
             <el-select v-model="listQuery.status" placeholder="全部" clearable>
               <el-option
                 v-for="item in publishStatusOptions"
@@ -74,7 +84,7 @@
       <i class="el-icon-tickets"></i>
       <span>数据列表</span>
       <el-button class="btn-add" @click="handleAddForm()" size="mini">
-        添加
+        添加账户
       </el-button>
     </el-card>
     <div class="table-container">
@@ -90,75 +100,62 @@
           width="60"
           align="center"
         ></el-table-column>
-        <el-table-column label="序号" width="80" align="center">
+        <el-table-column label="账户ID" width="80" align="center">
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="供应商名称" align="center">
+        <el-table-column label="用户名" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.title }}</p>
-            <p>绑定前端账号:{{ scope.row.front_str }}</p>
+            <p>{{ scope.row.name }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="id" align="center">-->
+        <el-table-column label="个人信息" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.privateKey }}</p>
+            <p>邀请码:{{ scope.row.yqm }}</p>
+            <p>角色:{{ scope.row.is_agent_str}}</p>
+            <p>能量余额:{{ scope.row.amount }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="地址" align="center">
+        <el-table-column label="钱包信息" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.address }}</p>
+            <p>钱包名称:{{ scope.row.wallet_name }}</p>
+            <p>钱包地址:{{ scope.row.wallet_address }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="是否授权" align="center">
+        <el-table-column label="上级用户" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.is_authorized_str }}</p>
+            <p>{{ scope.row.pid_name }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="trx余额" align="center">
+        <el-table-column label="委托平台信息" width="150" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.balance }}</p>
+            <p>委托能量总数：{{ scope.row.energy_total }}</p>
+            <p>委托能量总笔数：{{ scope.row.energy_total_number }}</p>
+            <p>昨日委托能量总数：{{ scope.row.energy_yestoday }}</p>
+            <p>委托能量总笔数：{{ scope.row.energy_yestoday_number }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="质押的trx数量" align="center">
+        <el-table-column label="链上信息" width="200" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.number }}</p>
+            <p>昨日实际交易笔数：{{ scope.row.energy_yestoday_line_number }}</p>
+            <p>
+              昨日实际消耗能量总数：{{ scope.row.energy_yestoday_line_total }}
+            </p>
+            <p>昨日燃烧TRX总数：{{ scope.row.energy_yestoday_line_trx }}</p>
+            <p>
+              昨日消耗带宽总数：{{ scope.row.energy_yestoday_line_bandwidth }}
+            </p>
+            <p>
+              昨日发出新旧地址总数：{{
+                scope.row.energy_yestoday_line_address_number
+              }}
+            </p>
           </template>
         </el-table-column>
-        <el-table-column label="未质押剩余的trx数量" align="center">
+        <el-table-column label="是否绑定bot" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.remain_number }}</p>
+            <p>{{ scope.row.is_bot_str }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="已使用的能量" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.energy_used }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="质押获取的总能量" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.energy_limit }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="全网质押获取总能量" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.total_energy_limit }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="全网用于获取能量的质押trx质量" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.total_energy_weight }}</p>
-          </template>
-        </el-table-column>
-<!--        <el-table-column label="上级用户" align="center">-->
-<!--          <template slot-scope="scope">-->
-<!--            <p>{{ scope.row.advanced_user }}</p>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
-<!--        <el-table-column label="上级钱包" align="center">-->
-<!--          <template slot-scope="scope">-->
-<!--            <p>{{ scope.row.superior_wallet }}</p>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
         <el-table-column label="状态" width="140" align="center">
           <template slot-scope="scope">
             <p>
@@ -173,36 +170,19 @@
             </p>
           </template>
         </el-table-column>
-        <el-table-column label="排序" width="100" align="center">
-          <template slot-scope="scope">{{ scope.row.sort }}</template>
-        </el-table-column>
-        <el-table-column label="操作" width="200" align="center">
+        <el-table-column label="操作" width="160" align="center">
           <template slot-scope="scope">
             <p>
               <el-button
-                  size="mini"
-                  type="text"
-                  @click="handleFreezeForm(scope.$index, scope.row)"
-              >质押
-              </el-button>
-              <el-button
                 size="mini"
-                type="text"
                 @click="handleUpdateForm(scope.$index, scope.row)"
                 >编辑
-              </el-button>
-              <el-button
-                size="mini"
-                type="danger"
-                @click="handleDelete(scope.$index, scope.row)"
-                >删除
               </el-button>
 
               <el-button
                   size="mini"
-                  type="text"
-                  @click="handleRefresh(scope.$index, scope.row)"
-              >刷新
+                  @click="handleTopForm(scope.$index, scope.row)"
+              >上分
               </el-button>
             </p>
           </template>
@@ -226,13 +206,12 @@
 </template>
 <script>
 import {
-  fetchList,
-  createSupplier as createData,
-  updateSupplier as updateData,
-  deleteSupplier as deleteData,
-  updateStatus, updateSupplier, updateRefresh,
-} from "@/api/supplier";
-import TronWeb from "tronweb";
+  fetchOperateList,
+  createMember as createData,
+  updateMember as updateData,
+  deleteMember as deleteData,
+  updateStatus,
+} from "@/api/user";
 
 const defaultListQuery = {
   keyword: null,
@@ -291,7 +270,7 @@ export default {
     //列表
     getList() {
       this.listLoading = true;
-      fetchList(this.listQuery).then((response) => {
+      fetchOperateList(this.listQuery).then((response) => {
         this.listLoading = false;
         if (response.code == 1) {
           const data = response.data;
@@ -328,43 +307,16 @@ export default {
     },
     //编辑-新增
     handleAddForm() {
-      this.$router.push({ path: "/ywgl/supplierAdd" });
+      this.$router.push({ path: "/caigou/memberAdd" });
     },
     //编辑-修改
     handleUpdateForm(index, row) {
-      this.$router.push({path: '/ywgl/supplierEdit', query: {id: row.id}})
+      this.$router.push({ path: "/caigou/memberEdit", query: { id: row.id } });
     },
 
-    handleRefresh(index, row) {
-      updateRefresh(row).then((response) => {
-        if (response.code == 1) {
-          this.$message({
-            message: "修改成功！",
-            type: "success",
-          });
-          this.getList()
-        } else {
-          this.$message({
-            message: response.info,
-            type: "error",
-          });
-        }
-      });
-      // const TronWeb = require('tronweb')
-      // const tronweb =   new TronWeb({
-      //   fullHost: 'https://api.trongrid.io',
-      //   headers: { "TRON-PRO-API-KEY": '6695790a-649c-4b95-bc79-450e154b3bd2' },
-      //   privateKey: ''
-      // })
-    //   var obj = setInterval(async ()=>{
-    //         clearInterval(obj)
-    //         const  tx= await tronweb.trx.getAccount( row.address);
-    //         row.balance=tx.balance/1000000
-    // }, 1000)
-
-    },
-    handleFreezeForm(index, row) {
-      this.$router.push({ path: "/ywgl/freeze", query: {id: row.id} });
+    //编辑-上分
+    handleTopForm(index, row) {
+      this.$router.push({ path: "/caigou/membertop", query: { id: row.id } });
     },
     //保存表单提交数据
     handleDialogConfirm() {

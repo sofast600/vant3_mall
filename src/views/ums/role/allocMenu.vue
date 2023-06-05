@@ -45,7 +45,8 @@
         });
       },
       getRoleMenu(roleId){
-        listMenuByRole(roleId).then(response=>{
+        let params = { id:roleId };
+        listMenuByRole(params).then(response=>{
           let menuList = response.data;
           let checkedMenuIds=[];
           if(menuList!=null&&menuList.length>0){
@@ -76,9 +77,11 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(()=>{
-          let params = new URLSearchParams();
-          params.append("roleId",this.roleId);
-          params.append("menuIds",Array.from(checkedMenuIds));
+          // let params = new URLSearchParams();
+          // params.append("id",this.roleId);
+          // params.append("menuIds",Array.from(checkedMenuIds));
+          console.log(checkedMenuIds)
+          let params = { id: this.roleId, menuIds: Array.from(checkedMenuIds) };
           allocMenu(params).then(response => {
             this.$message({
               message: '分配成功',

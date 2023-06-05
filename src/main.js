@@ -27,6 +27,11 @@ Vue.filter('date', function (n) {
   const result = moment(n * 1000).format('YYYY-MM-DD hh:mm:ss') // 转换时间格式
   return result // 返回出去 否则不会生效
 })
+Vue.filter('dateXin', function (n) {
+  const result = moment(n * 1000).format('YYYY-MM-DD ') // 转换时间格式
+  return result // 返回出去 否则不会生效
+})
+
 
 // new Vue({
 //   el: '#app',

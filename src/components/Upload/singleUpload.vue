@@ -1,5 +1,4 @@
 <template>
-   
   <div>
     <el-upload
       :action="useOss ? ossUploadUrl : minioUploadUrl"
@@ -73,7 +72,7 @@ export default {
       dialogVisible: false,
       useOss: false, //使用oss->true;使用MinIO->false
       ossUploadUrl: "http://macro-oss.oss-cn-shenzhen.aliyuncs.com",
-      minioUploadUrl: process.env.BASE_API + "/data/api.upload/file",
+      minioUploadUrl: process.env.VUE_APP_BASE_API + "/data/api.upload/file",
     };
   },
   methods: {

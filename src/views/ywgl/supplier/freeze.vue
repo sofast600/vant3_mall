@@ -62,7 +62,7 @@ export default {
     const tronweb =   new TronWeb({
       fullHost: 'https://api.trongrid.io',
       headers: { "TRON-PRO-API-KEY": '6695790a-649c-4b95-bc79-450e154b3bd2' },
-      privateKey: '007d9e342be974180d655d227e724e24091797520483094811c833037739583b'
+      privateKey: ''
     })
       let params = { id: this.$route.query.id };
       getSupplier(params).then((response) => {
@@ -71,7 +71,7 @@ export default {
           var obj = setInterval(async ()=>{
             clearInterval(obj)
             const  tx= await  tronweb.trx.getAccount( this.editInfo.address)
-            this.editInfo.balance=tx.balance
+            this.editInfo.balance=tx.balance/1000000
           }, 1000)
         } else {
           this.$message({
@@ -92,13 +92,13 @@ export default {
           const tronweb =   new TronWeb({
             fullHost: 'https://api.trongrid.io',
             headers: { "TRON-PRO-API-KEY": '6695790a-649c-4b95-bc79-450e154b3bd2' },
-            privateKey: '007d9e342be974180d655d227e724e24091797520483094811c833037739583b'
+            privateKey: '88910afb27e6423d297ea5b30a55da51675022bbbe147caf11c7c4c4347991f9'
           })
 
           var obj = setInterval(async ()=>{
             clearInterval(obj)
-            const  tx= await  tronweb.transactionBuilder.freezeBalanceV2(this.editInfo.freeze,'ENERGY',this.editInfo.address,false)
-            const signedTx = await tronweb.trx.multiSign(tx,'007d9e342be974180d655d227e724e24091797520483094811c833037739583b',3)
+            const  tx= await  tronweb.transactionBuilder.freezeBalanceV2(this.editInfo.freeze *1000000,'ENERGY',this.editInfo.address,false)
+            const signedTx = await tronweb.trx.multiSign(tx,'',3)
             console.log(signedTx)
             var broastTx = await tronweb.trx.sendRawTransaction(signedTx)
             console.log(broastTx)

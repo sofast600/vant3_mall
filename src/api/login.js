@@ -27,7 +27,7 @@ export function logout() {
 
 export function fetchList(params) {
   return request({
-    url: '/admin/list',
+    url: '/api/user.admin/index',
     method: 'get',
     params: params
   })
@@ -35,32 +35,33 @@ export function fetchList(params) {
 
 export function createAdmin(data) {
   return request({
-    url: '/admin/register',
+    url: '/api/user.admin/add',
     method: 'post',
     data: data
   })
 }
 
-export function updateAdmin(id, data) {
+export function updateAdmin(data) {
   return request({
-    url: '/admin/update/' + id,
+    url: '/api/user.admin/edit',
     method: 'post',
     data: data
   })
 }
 
-export function updateStatus(id, params) {
+export function updateStatus(data) {
   return request({
-    url: '/admin/updateStatus/' + id,
+    url: '/api/user.admin/state',
     method: 'post',
-    params: params
+    data: data
   })
 }
 
-export function deleteAdmin(id) {
+export function deleteAdmin(data) {
   return request({
-    url: '/admin/delete/' + id,
-    method: 'post'
+    url: '/api/user.admin/delete' ,
+    method: 'post',
+    data: data
   })
 }
 
@@ -73,7 +74,7 @@ export function getRoleByAdmin(id) {
 
 export function allocRole(data) {
   return request({
-    url: '/admin/role/update',
+    url: '/api/user.admin/update',
     method: 'post',
     data: data
   })

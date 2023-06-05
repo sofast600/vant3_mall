@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function fetchList(params) {
   return request({
-    url: '/role/list',
+    url: '/api/user.role/index',
     method: 'get',
     params: params
   })
@@ -10,31 +10,31 @@ export function fetchList(params) {
 
 export function createRole(data) {
   return request({
-    url: '/role/create',
+    url: '/api/user.role/add',
     method: 'post',
     data: data
   })
 }
 
-export function updateRole(id, data) {
+export function updateRole(data) {
   return request({
-    url: '/role/update/' + id,
+    url: '/api/user.role/edit',
     method: 'post',
     data: data
   })
 }
 
-export function updateStatus(id, params) {
+export function updateStatus(data) {
   return request({
-    url: '/role/updateStatus/' + id,
+    url: '/api/user.role/state' ,
     method: 'post',
-    params: params
+    data: data
   })
 }
 
 export function deleteRole(data) {
   return request({
-    url:'/role/delete',
+    url:'/api/user.role/delete',
     method:'post',
     data:data
   })
@@ -42,15 +42,16 @@ export function deleteRole(data) {
 
 export function fetchAllRoleList() {
   return request({
-    url: '/role/listAll',
+    url: '/api/user.role/list',
     method: 'get'
   })
 }
 
-export function listMenuByRole(roleId) {
+export function listMenuByRole(data) {
   return request({
-    url: '/role/listMenu/'+roleId,
-    method: 'get'
+    url: '/api/user.menu/listMenu',
+    method: 'post',
+    data: data,
   })
 }
 
@@ -63,7 +64,7 @@ export function listResourceByRole(roleId) {
 
 export function allocMenu(data) {
   return request({
-    url: '/role/allocMenu',
+    url: '/api/user.menu/allocMenu',
     method: 'post',
     data:data
   })

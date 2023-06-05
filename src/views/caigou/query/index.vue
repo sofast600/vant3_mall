@@ -298,7 +298,7 @@ export default {
       if(this.listQuery.address!=''){
         //  var  time=this.data1-this.data0;
         // if(time==86400000){
-       this.time=(this.listQuery.create_at[1].getTime()-this.listQuery.create_at[0].getTime()+86400000)/8
+       this.time=(this.listQuery.create_at[1].getTime()-this.listQuery.create_at[0].getTime()+86400000)/24
           this.data0 = this.listQuery.create_at[0].getTime()
           this.data1= this.listQuery.create_at[0].getTime()-1+this.time
          this.getTransactions();
@@ -365,7 +365,7 @@ export default {
             this.fingerprint=this.metaList.fingerprint
             this.getTransactions();
           }else{
-            if( this.sum<7){
+            if( this.sum<24){
               this.fingerprint='';
               this.sum= this.sum+1
               this.data0 =this.data0+this.time;

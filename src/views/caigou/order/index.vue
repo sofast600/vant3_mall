@@ -95,9 +95,10 @@
         <el-table-column label="ID" width="80" align="center">
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="用户名" align="center">
+        <el-table-column label="用户信息" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.name }}</p>
+            <p>用户名:{{ scope.row.name }}</p>
+            <p>上級名:{{ scope.row.agent_name}}</p>
           </template>
         </el-table-column>
         <el-table-column label="订单号" align="center">
@@ -111,21 +112,19 @@
             <p>哈希:{{ scope.row.hashid }}</p>
           </template>
         </el-table-column>
-<!--        <el-table-column label="哈希" align="center">-->
+
+        <el-table-column label="类型" width="120"   align="center">
+          <template slot-scope="scope">
+            <p>交易类型:{{ scope.row.transaction_type_str }}</p>
+            <p>采购类型:{{ scope.row.purchase_type_str }}</p>
+            <p>计算类型:{{ scope.row.type_str }}</p>
+          </template>
+        </el-table-column>
+<!--        <el-table-column label="订单地址" align="center">-->
 <!--          <template slot-scope="scope">-->
-<!--            <p>{{ scope.row.hashid }}</p>-->
+<!--            <p>{{ scope.row.order_address }}</p>-->
 <!--          </template>-->
 <!--        </el-table-column>-->
-        <el-table-column label="交易类型" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.transaction_type_str }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="订单地址" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.order_address }}</p>
-          </template>
-        </el-table-column>
         <el-table-column label="资源发起地址" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.payment_address }}</p>
@@ -162,7 +161,7 @@
             <p>资源状态:{{scope.row.resource_status==1 ? "已回收":"未回收" }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="代理转账TRX" align="center">
+        <el-table-column label="占用质押TRX" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.money }}</p>
           </template>
@@ -172,11 +171,11 @@
             <p>{{ scope.row.number }}</p>
           </template>
         </el-table-column>
-<!--        <el-table-column label="费用" align="center">-->
-<!--          <template slot-scope="scope">-->
-<!--            <p>{{ scope.row.money }}</p>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
+        <el-table-column label="交易笔数" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.sales_num }}</p>
+          </template>
+        </el-table-column>
         <el-table-column label="消息通知信息" align="center">
           <template slot-scope="scope">
             <p>TgID：{{ scope.row.chat_id }}</p>
@@ -262,6 +261,7 @@ export default {
   },
   data() {
     return {
+      addressId:3,
       orderStatusOptions: [
         {
           value: 1,
@@ -451,6 +451,7 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
+        this.editPromotion = Object.assign({}, row);
         const TronWeb = require("tronweb");
         const tronweb = new TronWeb({
           fullHost: "https://api.trongrid.io",
@@ -458,13 +459,56 @@ export default {
           privateKey:
               "88910afb27e6423d297ea5b30a55da51675022bbbe147caf11c7c4c4347991f9",
         });
+        var to = tronweb.address.toHex(this.editPromotion.energy_address);
+        var from = tronweb.address.toHex(this.editPromotion.payment_address);
+        var obj = setInterval(async () => {
+              clearInterval(obj);
         const tx = await tronweb.transactionBuilder.undelegateResource(
-            price,
+            this.editPromotion.money,
             to,
             "ENERGY",
             from,
-            false
         );
+          let accountInfo = await tronweb.trx.getAccount(from);
+          for (let i = 0; i < accountInfo.active_permission.length; i++) {
+            if (tronweb.address.toHex(this.addressDefalt) == accountInfo.active_permission[i].keys[0].address) {
+              this.addressId = accountInfo.active_permission[i].id
+            }
+          }
+          const signedTx = await tronweb.trx.multiSign(
+              tx,
+              "88910afb27e6423d297ea5b30a55da51675022bbbe147caf11c7c4c4347991f9",
+              this.addressId
+          );
+
+          const broastTx = await tronweb.trx.sendRawTransaction(signedTx);
+          // console.log(broastTx);
+          if (broastTx.result) {
+            let params ={
+              order_no: this.editPromotion.order_no,
+            };
+            recycle(params).then((response) => {
+              if (response.code == 1) {
+                this.$message({
+                  message: "回收成功！",
+                  type: "success",
+                });
+                this.getList();
+              } else {
+                this.$message({
+                  message: response.info,
+                  type: "error",
+                });
+              }
+            });
+          }else{
+            this.$message({
+              message: "回收失败！",
+              type: "error",
+            });
+          }
+
+            }, 1000);
       //   let  time=new Date().getTime();
       //     if(row.end_time>time){
       //       this.$message({
@@ -475,24 +519,8 @@ export default {
       //     }else{
       //
       //     }
-        this.editPromotion = Object.assign({}, row);
-        let params ={
-          order_no: this.editPromotion.order_no,
-        };
-        recycle(params).then((response) => {
-          if (response.code == 1) {
-            this.$message({
-              message: "回收成功！",
-              type: "success",
-            });
-          } else {
-            this.$message({
-              message: response.info,
-              type: "error",
-            });
-          }
-        });
-        this.getList();
+
+
       });
 
     },

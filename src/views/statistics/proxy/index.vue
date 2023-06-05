@@ -5,77 +5,51 @@
         <i class="el-icon-search"></i>
         <span>筛选搜索</span>
         <el-button
-          style="float: right"
-          @click="handleSearchList()"
-          type="primary"
-          size="small"
+            style="float: right"
+            @click="handleSearchList()"
+            type="primary"
+            size="small"
         >
           查询结果
         </el-button>
         <el-button
-          style="float: right; margin-right: 15px"
-          @click="handleResetSearch()"
-          size="small"
+            style="float: right; margin-right: 15px"
+            @click="handleResetSearch()"
+            size="small"
         >
           重置
         </el-button>
       </div>
       <div style="margin-top: 15px">
         <el-form
-          :inline="true"
-          :model="listQuery"
-          size="small"
-          label-width="140px"
+            :inline="true"
+            :model="listQuery"
+            size="small"
+            label-width="140px"
         >
-          <el-form-item label="账户ID：">
+          <el-form-item label="用户ID：">
             <el-input
-              style="width: 203px"
-              v-model="listQuery.id"
-              placeholder="账户ID"
+                style="width: 203px"
+                v-model="listQuery.uid"
+                placeholder="用户ID"
             ></el-input>
           </el-form-item>
           <el-form-item label="用户名：">
             <el-input
-              style="width: 203px"
-              v-model="listQuery.name"
-              placeholder="用户名"
+                style="width: 203px"
+                v-model="listQuery.name"
+                placeholder="用户名"
             ></el-input>
           </el-form-item>
-          <el-form-item label="钱包名称：">
-            <el-input
-              style="width: 203px"
-              v-model="listQuery.wallet_name"
-              placeholder="钱包名称"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="钱包地址：">
-            <el-input
-              style="width: 203px"
-              v-model="listQuery.wallet_address"
-              placeholder="钱包名称"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="bot状态：">
-            <el-select v-model="listQuery.is_bot" placeholder="全部" clearable>
-              <el-option
-                v-for="item in authStatusOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="账户状态：">
-            <el-select v-model="listQuery.status" placeholder="全部" clearable>
-              <el-option
-                v-for="item in publishStatusOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
+          <el-form-item label="查询时间：">
+            <el-date-picker
+                v-model="listQuery.create_at"
+                type="daterange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+            >
+            </el-date-picker>
           </el-form-item>
         </el-form>
       </div>
@@ -83,94 +57,58 @@
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets"></i>
       <span>数据列表</span>
-      <el-button class="btn-add" @click="handleAddForm()" size="mini">
-        添加账户
-      </el-button>
     </el-card>
     <div class="table-container">
       <el-table
-        ref="formTable"
-        :data="list"
-        style="width: 100%"
-        v-loading="listLoading"
-        border
+          ref="formTable"
+          :data="list"
+          style="width: 100%"
+          v-loading="listLoading"
+          border
       >
         <el-table-column
-          type="selection"
-          width="60"
-          align="center"
+            type="selection"
+            width="60"
+            align="center"
         ></el-table-column>
-        <el-table-column label="账户ID" width="80" align="center">
+        <el-table-column label="ID" width="80" align="center">
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="用户名" align="center">
+        <el-table-column label="代理商名称" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.name }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="个人信息" align="center">
+        <el-table-column label="所属运营中心" width="200" align="center">
           <template slot-scope="scope">
-            <p>邀请码:{{ scope.row.yqm }}</p>
-            <p>角色:{{ scope.row.is_agent_str}}</p>
-            <p>能量余额:{{ scope.row.amount }}</p>
+            <p>用户ID：{{ scope.row.operations }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="钱包信息" align="center">
+        <el-table-column label="日期" align="center">
           <template slot-scope="scope">
-            <p>钱包名称:{{ scope.row.wallet_name }}</p>
-            <p>钱包地址:{{ scope.row.wallet_address }}</p>
+            <p>{{ scope.row.today }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="上级用户" align="center">
+        <el-table-column label="统计信息" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.pid_name }}</p>
+            <p>能量预充：{{ scope.row.energy_precharge }}</p>
+            <p>预充金额：{{ scope.row.precharge_amount }}</p>
+            <p>能量代发：{{ scope.row.energy_generation }}</p>
+            <p>占用的TRX：{{ scope.row.occupy_trx }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="委托平台信息" width="150" align="center">
-          <template slot-scope="scope">
-            <p>委托能量总数：{{ scope.row.energy_total }}</p>
-            <p>委托能量总笔数：{{ scope.row.energy_total_number }}</p>
-            <p>昨日委托能量总数：{{ scope.row.energy_yestoday }}</p>
-            <p>委托能量总笔数：{{ scope.row.energy_yestoday_number }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="链上信息" width="200" align="center">
-          <template slot-scope="scope">
-            <p>昨日实际交易笔数：{{ scope.row.energy_yestoday_line_number }}</p>
-            <p>
-              昨日实际消耗能量总数：{{ scope.row.energy_yestoday_line_total }}
-            </p>
-            <p>昨日燃烧TRX总数：{{ scope.row.energy_yestoday_line_trx }}</p>
-            <p>
-              昨日消耗带宽总数：{{ scope.row.energy_yestoday_line_bandwidth }}
-            </p>
-            <p>
-              昨日发出新旧地址总数：{{
-                scope.row.energy_yestoday_line_address_number
-              }}
-            </p>
-          </template>
-        </el-table-column>
-        <el-table-column label="是否绑定bot" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.is_bot_str }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="状态" width="140" align="center">
-          <template slot-scope="scope">
-            <p>
-              启用：
-              <el-switch
-                @change="handleStatusChange(scope.$index, scope.row)"
-                :active-value="1"
-                :inactive-value="0"
-                v-model="scope.row.status"
-              >
-              </el-switch>
-            </p>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" width="160" align="center">
+<!--        <el-table-column label="提款状态" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>{{ scope.row.status_str }}</p>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column label="操作信息" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>创建时间：{{ scope.row.create_at }}</p>-->
+<!--            <p>提款时间：{{ scope.row.trade_time_str }}</p>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+        <!-- <el-table-column label="操作" width="160" align="center">
           <template slot-scope="scope">
             <p>
               <el-button
@@ -178,27 +116,27 @@
                 @click="handleUpdateForm(scope.$index, scope.row)"
                 >编辑
               </el-button>
-
               <el-button
-                  size="mini"
-                  @click="handleTopForm(scope.$index, scope.row)"
-              >上分
+                size="mini"
+                type="danger"
+                @click="handleDelete(scope.$index, scope.row)"
+                >删除
               </el-button>
             </p>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
     </div>
     <div class="pagination-container">
       <el-pagination
-        background
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        layout="total, sizes,prev, pager, next,jumper"
-        :page-size="listQuery.limit"
-        :page-sizes="[10, 15, 20]"
-        :current-page.sync="listQuery.page"
-        :total="total"
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          layout="total, sizes,prev, pager, next,jumper"
+          :page-size="listQuery.limit"
+          :page-sizes="[10, 15, 20]"
+          :current-page.sync="listQuery.page"
+          :total="total"
       >
       </el-pagination>
     </div>
@@ -207,16 +145,16 @@
 <script>
 import {
   fetchList,
-  createMember as createData,
-  updateMember as updateData,
-  deleteMember as deleteData,
-  updateStatus,
-} from "@/api/user";
+} from "@/api/proxy";
+import moment from "moment";
 
 const defaultListQuery = {
   keyword: null,
   page: 1,
   limit: 10,
+  create_at: null,
+  begin_date: null,
+  end_date: null,
 };
 const defaultEditPromotion = {
   id: null,
@@ -238,16 +176,6 @@ export default {
         {
           value: 0,
           label: "禁用",
-        },
-      ],
-      authStatusOptions: [
-        {
-          value: 1,
-          label: "是",
-        },
-        {
-          value: 0,
-          label: "否",
         },
       ],
       editInfo: {
@@ -288,6 +216,14 @@ export default {
     //搜索
     handleSearchList() {
       this.listQuery.page = 1;
+      console.log(this.listQuery.create_at)
+      if(this.listQuery.create_at!=null) {//时间范围精确到小时
+        this.listQuery.begin_date = moment(this.listQuery.create_at[0].getTime()).format('YYYY-MM-DD ')
+        this.listQuery.end_date= moment(this.listQuery.create_at[1].getTime()).format('YYYY-MM-DD ')
+      }else{
+        this.listQuery.begin_date = null
+        this.listQuery.end_date= null
+      }
       this.getList();
     },
     //重置搜索
@@ -307,16 +243,15 @@ export default {
     },
     //编辑-新增
     handleAddForm() {
-      this.$router.push({ path: "/caigou/memberAdd" });
+      this.editInfo.dialogVisible = true;
+      this.isEdit = false;
+      this.editPromotion = Object.assign({}, defaultEditPromotion);
     },
     //编辑-修改
     handleUpdateForm(index, row) {
-      this.$router.push({ path: "/caigou/memberEdit", query: { id: row.id } });
-    },
-
-    //编辑-上分
-    handleTopForm(index, row) {
-      this.$router.push({ path: "/caigou/membertop", query: { id: row.id } });
+      this.editInfo.dialogVisible = true;
+      this.isEdit = true;
+      this.editPromotion = Object.assign({}, row);
     },
     //保存表单提交数据
     handleDialogConfirm() {
@@ -362,28 +297,28 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       })
-        .then(() => {
-          let params = { id: row.id, status: row.status };
-          updateStatus(params).then((response) => {
-            if (response.code == 1) {
-              this.$message({
-                message: "修改成功！",
-                type: "success",
-              });
-            } else {
-              this.$message({
-                message: response.info,
-                type: "error",
-              });
-            }
+          .then(() => {
+            let params = { id: row.id, status: row.status };
+            updateStatus(params).then((response) => {
+              if (response.code == 1) {
+                this.$message({
+                  message: "修改成功！",
+                  type: "success",
+                });
+              } else {
+                this.$message({
+                  message: response.info,
+                  type: "error",
+                });
+              }
+            });
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "取消修改",
+            });
           });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "取消修改",
-          });
-        });
     },
 
     //删除

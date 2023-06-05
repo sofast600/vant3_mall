@@ -83,7 +83,7 @@ const permission = {
         const accessedRouters = asyncRouterMap.filter(v => {
           //admin帐号直接返回所有菜单
           // if(username==='promax') return true;
-          return true;
+          // return true;
           if (hasPermission(menus, v)) {
             if (v.children && v.children.length > 0) {
               v.children = v.children.filter(child => {

@@ -21,7 +21,7 @@
       <div style="margin-top: 15px">
         <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
           <el-form-item label="输入搜索：">
-            <el-input v-model="listQuery.keyword" class="input-width" placeholder="角色名称" clearable></el-input>
+            <el-input v-model="listQuery.title" class="input-width" placeholder="角色名称" clearable></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -40,16 +40,16 @@
           <template slot-scope="scope">{{scope.row.id}}</template>
         </el-table-column>
         <el-table-column label="角色名称" align="center">
-          <template slot-scope="scope">{{scope.row.name}}</template>
+          <template slot-scope="scope">{{scope.row.title}}</template>
         </el-table-column>
         <el-table-column label="描述" align="center">
-          <template slot-scope="scope">{{scope.row.description}}</template>
+          <template slot-scope="scope">{{scope.row.desc}}</template>
         </el-table-column>
-        <el-table-column label="用户数"  width="100" align="center">
-          <template slot-scope="scope">{{scope.row.adminCount}}</template>
-        </el-table-column>
+<!--        <el-table-column label="用户数"  width="100" align="center">-->
+<!--          <template slot-scope="scope">{{scope.row.adminCount}}</template>-->
+<!--        </el-table-column>-->
         <el-table-column label="添加时间" width="160" align="center">
-          <template slot-scope="scope">{{scope.row.createTime | formatDateTime}}</template>
+          <template slot-scope="scope">{{scope.row.create_at}}</template>
         </el-table-column>
         <el-table-column label="是否启用" width="140" align="center">
           <template slot-scope="scope">
@@ -68,10 +68,10 @@
                          type="text"
                          @click="handleSelectMenu(scope.$index, scope.row)">分配菜单
               </el-button>
-              <el-button size="mini"
-                         type="text"
-                         @click="handleSelectResource(scope.$index, scope.row)">分配资源
-              </el-button>
+<!--              <el-button size="mini"-->
+<!--                         type="text"-->
+<!--                         @click="handleSelectResource(scope.$index, scope.row)">分配资源-->
+<!--              </el-button>-->
             </el-row>
             <el-row>
             <el-button size="mini"
@@ -108,10 +108,10 @@
                ref="roleForm"
                label-width="150px" size="small">
         <el-form-item label="角色名称：">
-          <el-input v-model="role.name" style="width: 250px"></el-input>
+          <el-input v-model="role.title" style="width: 250px"></el-input>
         </el-form-item>
         <el-form-item label="描述：">
-          <el-input v-model="role.description"
+          <el-input v-model="role.desc"
                     type="textarea"
                     :rows="5"
                     style="width: 250px"></el-input>
@@ -137,12 +137,12 @@
   const defaultListQuery = {
     pageNum: 1,
     pageSize: 5,
-    keyword: null
+    title: null
   };
   const defaultRole = {
     id: null,
-    name: null,
-    description: null,
+    title: null,
+    desc: null,
     adminCount: 0,
     status: 1
   };
@@ -199,7 +199,8 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          updateStatus(row.id, {status: row.status}).then(response => {
+          let params = { id: row.id, status: row.status };
+          updateStatus(params).then(response => {
             this.$message({
               type: 'success',
               message: '修改成功!'
@@ -244,7 +245,7 @@
           type: 'warning'
         }).then(() => {
           if (this.isEdit) {
-            updateRole(this.role.id,this.role).then(response => {
+            updateRole(this.role).then(response => {
               this.$message({
                 message: '修改成功！',
                 type: 'success'

@@ -9,6 +9,43 @@ export function fetchList(params) {
   })
 }
 
+
+
+//列表
+export function fetchAgentList(params) {
+  return request({
+    url: '/api/user.people/indexAgent',
+    method: 'get',
+    params: params
+  })
+}
+
+
+//列表
+export function fetchSuppleList(params) {
+  return request({
+    url: '/api/user.people/indexSupple',
+    method: 'get',
+    params: params
+  })
+}
+//列表
+export function fetchOperateList(params) {
+  return request({
+    url: '/api/user.people/indexOperate',
+    method: 'get',
+    params: params
+  })
+}
+
+//数据角色赋值
+export function chooseRoleList(params) {
+  return request({
+    url: '/api/user.people/chooseRoleList',
+    method: 'get',
+    params: params
+  })
+}
 //详情
 export function getMember(data) {
   return request({

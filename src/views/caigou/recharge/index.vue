@@ -80,17 +80,23 @@
           <template slot-scope="scope">
             <p>用户ID：{{ scope.row.uid }}</p>
             <p>用户名：{{ scope.row.name }}</p>
+            <p>钱包地址：{{scope.row.address }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="上传凭证" width="200" align="center">
+        <el-table-column label="区块ID" width="200" align="center">
           <template slot-scope="scope">
-            <el-image
-                style="width: 100px; height: 100px"
-                :src="scope.row.image"
-                :preview-src-list="[scope.row.image]"
-                :fit="fit"></el-image>
+            <p>区块ID：{{ scope.row.block_id }}</p>
           </template>
         </el-table-column>
+<!--        <el-table-column label="上传凭证" width="200" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <el-image-->
+<!--                style="width: 100px; height: 100px"-->
+<!--                :src="scope.row.image"-->
+<!--                :preview-src-list="[scope.row.image]"-->
+<!--                :fit="fit"></el-image>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
 
         <el-table-column label="充值信息" align="center">
           <template slot-scope="scope">
@@ -100,19 +106,22 @@
         </el-table-column>
         <el-table-column label="充值金额" align="center">
           <template slot-scope="scope">
-            <p>预充金额：{{ scope.row.order_amount }}</p>
-            <p>实充金额：{{ scope.row.payment_amount }}</p>
+            <p>预充Trx：{{ scope.row.order_amount }}</p>
+            <p>实充Trx：{{ scope.row.payment_amount }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="金额变化" align="center">
+        <el-table-column label="能量变化" align="center">
           <template slot-scope="scope">
-            <p>之前金额：{{ scope.row.old_money }}</p>
-            <p>之后金额：{{ scope.row.new_money }}</p>
+            <p>之前能量：{{ scope.row.old_money }}</p>
+            <p>能量数量：{{ scope.row.number }}</p>
+            <p>之后能量：{{ scope.row.new_money }}</p>
+            <p>笔数：{{ scope.row.count }}</p>
           </template>
         </el-table-column>
         <el-table-column label="充值状态" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.status_str }}</p>
+            <p>充值状态:{{ scope.row.status_str }}</p>
+            <p>充值类型:{{ scope.row.type_str }}</p>
           </template>
         </el-table-column>
         <el-table-column label="操作信息" align="center">

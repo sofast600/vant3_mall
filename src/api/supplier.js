@@ -9,6 +9,15 @@ export function fetchList(params) {
   })
 }
 
+//列表
+export function fetchListTotal(params) {
+  return request({
+    url: '/api/total.supply/index',
+    method: 'get',
+    params: params
+  })
+}
+
 //详情
 export function getSupplier(data) {
   return request({
@@ -31,6 +40,15 @@ export function createSupplier(data) {
 export function updateSupplier(data) {
   return request({
     url: '/api/busy.supplier/edit',
+    method: 'post',
+    data: data
+  })
+}
+
+//修改
+export function updateRefresh(data) {
+  return request({
+    url: '/api/busy.supplier/refresh',
     method: 'post',
     data: data
   })

@@ -59,27 +59,27 @@ export const asyncRouterMap = [
         path: 'supplier',
         name: 'supplier',
         component: () => import('@/views/ywgl/supplier/index'),
-        meta: { title: '供应商列表', icon: 'product-list' }
+        meta: { title: '能量供应列表', icon: 'product-list' }
       },
       {
         path: 'supplierAdd',
         name: 'supplierAdd',
         component: () => import('@/views/ywgl/supplier/add'),
-        meta: { title: '供应商添加' },
+        meta: { title: '能量供应添加' },
         hidden: true
       },
       {
         path: 'supplierEdit',
         name: 'supplierEdit',
         component: () => import('@/views/ywgl/supplier/edit'),
-        meta: { title: '供应商修改' },
+        meta: { title: '能量供应修改' },
         hidden: true
       },
       {
         path: 'freeze',
         name: 'freeze',
         component: () => import('@/views/ywgl/supplier/freeze'),
-        meta: { title: '供应商修改' },
+        meta: { title: '能量供应质押' },
         hidden: true
       },
     ]
@@ -119,6 +119,86 @@ export const asyncRouterMap = [
         hidden: true
       },
       {
+        path: 'agent',
+        name: 'agent',
+        component: () => import('@/views/caigou/agent/index'),
+        meta: { title: '代理商列表', icon: 'product-list' }
+      },
+      {
+        path: 'agentAdd',
+        name: 'agentAdd',
+        component: () => import('@/views/caigou/agent/add'),
+        meta: { title: '代理商增加', icon: 'product-list' }
+      },
+      {
+        path: 'agentEdit',
+        name: 'agentEdit',
+        component: () => import('@/views/caigou/agent/edit'),
+        meta: { title: '代理商修改' },
+        hidden: true
+      },
+      {
+        path: 'agenttop',
+        name: 'agenttop',
+        component: () => import('@/views/caigou/agent/top_score'),
+        meta: { title: '上分' },
+        hidden: true
+      },
+      {
+        path: 'supply',
+        name: 'supply',
+        component: () => import('@/views/caigou/supple/index'),
+        meta: { title: '供应商列表', icon: 'product-list' }
+      },
+      {
+        path: 'supplyAdd',
+        name: 'supplyAdd',
+        component: () => import('@/views/caigou/supple/add'),
+        meta: { title: '供应商增加', icon: 'product-list' }
+      },
+      {
+        path: 'supplyEdit',
+        name: 'supplyEdit',
+        component: () => import('@/views/caigou/supple/edit'),
+        meta: { title: '供应商修改' },
+        hidden: true
+      },
+      {
+        path: 'supplytop',
+        name: 'supplytop',
+        component: () => import('@/views/caigou/supple/top_score'),
+        meta: { title: '上分' },
+        hidden: true
+      },
+
+      {
+        path: 'operate',
+        name: 'operate',
+        component: () => import('@/views/caigou/operate/index'),
+        meta: { title: '运营中心列表', icon: 'product-list' }
+      },
+      {
+        path: 'operateAdd',
+        name: 'operateAdd',
+        component: () => import('@/views/caigou/supple/add'),
+        meta: { title: '运营中心增加', icon: 'product-list' }
+      },
+      {
+        path: 'operateEdit',
+        name: 'operateEdit',
+        component: () => import('@/views/caigou/supple/edit'),
+        meta: { title: '运营中心修改' },
+        hidden: true
+      },
+      {
+        path: 'operatetop',
+        name: 'operatetop',
+        component: () => import('@/views/caigou/supple/top_score'),
+        meta: { title: '上分' },
+        hidden: true
+      },
+
+      {
         path: 'order',
         name: 'order',
         component: () => import('@/views/caigou/order/index'),
@@ -130,12 +210,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/caigou/recharge/index'),
         meta: { title: '充值记录', icon: 'product-list' }
       },
-      {
-        path: 'withdraw',
-        name: 'withdraw',
-        component: () => import('@/views/caigou/withdraw/index'),
-        meta: { title: '提款记录', icon: 'product-list' }
-      },
+      // {
+      //   path: 'withdraw',
+      //   name: 'withdraw',
+      //   component: () => import('@/views/caigou/withdraw/index'),
+      //   meta: { title: '提款记录', icon: 'product-list' }
+      // },
       {
         path: 'query',
         name: 'query',
@@ -175,6 +255,95 @@ export const asyncRouterMap = [
         component: () => import('@/views/canshu/address/index'),
         meta: { title: '收款地址', icon: 'product-list' }
       },
+    ]
+  },
+  {
+    path: '/statistics',
+    component: Layout,
+    redirect: '/statistics/proxy',
+    name: 'statistics',
+    meta: { title: '统计管理', icon: 'marker' },
+    children: [
+      {
+        path: 'proxy_statistics',
+        name: 'proxy_statistics',
+        component: () => import('@/views/statistics/proxy/index'),
+        meta: { title: '代理统计', icon: 'product-list' }
+      },
+      {
+        path: 'supplier_statistics',
+        name: 'supplier_statistics',
+        component: () => import('@/views/statistics/supplier/index'),
+        meta: { title: '供货商统计', icon: 'product-list' }
+      },
+    ]
+  },
+  {
+    path:'/ums',
+    component: Layout,
+    redirect: '/ums/admin',
+    name: 'ums',
+    meta: {title: '权限', icon: 'ums'},
+    children: [
+      {
+        path: 'admin',
+        name: 'admin',
+        component: () => import('@/views/ums/admin/index'),
+        meta: {title: '用户列表', icon: 'ums-admin'}
+      },
+      {
+        path: 'role',
+        name: 'role',
+        component: () => import('@/views/ums/role/index'),
+        meta: {title: '角色列表', icon: 'ums-role'}
+      },
+      {
+        path: 'allocMenu',
+        name: 'allocMenu',
+        component: () => import('@/views/ums/role/allocMenu'),
+        meta: {title: '分配菜单'},
+        hidden: true
+      },
+      {
+        path: 'allocResource',
+        name: 'allocResource',
+        component: () => import('@/views/ums/role/allocResource'),
+        meta: {title: '分配资源'},
+        hidden: true
+      },
+      // {
+      //   path: 'menu',
+      //   name: 'menu',
+      //   component: () => import('@/views/ums/menu/index'),
+      //   meta: {title: '菜单列表', icon: 'ums-menu'}
+      // },
+      {
+        path: 'addMenu',
+        name: 'addMenu',
+        component: () => import('@/views/ums/menu/add'),
+        meta: {title: '添加菜单'},
+        hidden: true
+      },
+      {
+        path: 'updateMenu',
+        name: 'updateMenu',
+        component: () => import('@/views/ums/menu/update'),
+        meta: {title: '修改菜单'},
+        hidden: true
+      },
+      // {
+      //   path: 'resource',
+      //   name: 'resource',
+      //   component: () => import('@/views/ums/resource/index'),
+      //   meta: {title: '资源列表', icon: 'ums-resource'}
+      // },
+      // {
+      //   path: 'resourceCategory',
+      //   name: 'resourceCategory',
+      //   component: () => import('@/views/ums/resource/categoryList'),
+      //   meta: {title: '资源分类'},
+      //   hidden: true
+      // }
     ]
   },
   { path: '*', redirect: '/404', hidden: true }
