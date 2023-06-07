@@ -7,6 +7,12 @@
         </div>
         <el-input v-model="editInfo.same_ip_register_number"></el-input>
       </el-form-item>
+      <el-form-item label="" prop="same_ip_register_number">
+        <div class="sub-title">
+          注册网页链接前缀 front_url
+        </div>
+        <el-input v-model="editInfo.front_url"></el-input>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit('editInfoFrom')"
           >提交</el-button
