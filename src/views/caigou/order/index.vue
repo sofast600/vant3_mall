@@ -34,22 +34,29 @@
               placeholder="订单号"
             ></el-input>
           </el-form-item>
-          <el-form-item label="采购方ID：">
+          <el-form-item label="采购方名称：">
             <el-input
               style="width: 203px"
-              v-model="listQuery.uid"
-              placeholder="采购方ID"
+              v-model="listQuery.name"
+              placeholder="采购方名称"
             ></el-input>
           </el-form-item>
-          <el-form-item label="手机号码：">
+          <el-form-item label="资源发起地址：">
             <el-input
               style="width: 203px"
-              v-model="listQuery.phone"
-              placeholder="手机号码"
+              v-model="listQuery.payment_address"
+              placeholder="资源发起地址"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="资源接收地址：">
+            <el-input
+                style="width: 203px"
+                v-model="listQuery.energy_address"
+                placeholder="资源接收地址"
             ></el-input>
           </el-form-item>
           <el-form-item label="订单状态：">
-            <el-select v-model="listQuery.status" placeholder="全部" clearable>
+            <el-select v-model="listQuery.result_status" placeholder="全部" clearable>
               <el-option
                 v-for="item in orderStatusOptions"
                 :key="item.value"
@@ -234,11 +241,16 @@
 <script>
 import { fetchList,recycle } from "@/api/order";
 import {formatDate} from "@/utils/date";
+import moment from "moment";
 
 const defaultListQuery = {
   keyword: null,
   page: 1,
   limit: 10,
+  payment_address: null,
+  create_at: null,
+  begin_date: null,
+  end_date: null,
 };
 const defaultEditPromotion = {
   type: null,
@@ -269,11 +281,11 @@ export default {
         },
         {
           value: 2,
-          label: "已确认",
+          label: "正在转",
         },
         {
           value: 3,
-          label: "异常",
+          label: "已确认",
         },
       ],
       editInfo: {
@@ -316,6 +328,13 @@ export default {
     //搜索
     handleSearchList() {
       this.listQuery.page = 1;
+      if(this.listQuery.create_at!=null) {//时间范围精确到小时
+        this.listQuery.begin_date = moment(this.listQuery.create_at[0].getTime()).format('YYYY-MM-DD ')
+        this.listQuery.end_date= moment(this.listQuery.create_at[1].getTime()).format('YYYY-MM-DD ')
+      }else{
+        this.listQuery.begin_date = null
+        this.listQuery.end_date= null
+      }
       this.getList();
     },
     //重置搜索
