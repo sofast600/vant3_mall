@@ -14,7 +14,7 @@
             style="width: 56px; height: 56px; color: #409eff"
           ></svg-icon>
         </div>
-        <h2 class="login-title color-main">mall-admin-web</h2>
+        <h2 class="login-title color-main">enart 能量租用管理</h2>
         <el-form-item prop="username">
           <el-input
             name="username"

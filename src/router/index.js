@@ -210,12 +210,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/caigou/recharge/index'),
         meta: { title: '充值记录', icon: 'product-list' }
       },
-      // {
-      //   path: 'withdraw',
-      //   name: 'withdraw',
-      //   component: () => import('@/views/caigou/withdraw/index'),
-      //   meta: { title: '提款记录', icon: 'product-list' }
-      // },
+      {
+        path: 'withdraw',
+        name: 'withdraw',
+        component: () => import('@/views/caigou/withdraw/index'),
+        meta: { title: '提款记录', icon: 'product-list' }
+      },
       {
         path: 'query',
         name: 'query',

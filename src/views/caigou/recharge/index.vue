@@ -71,21 +71,24 @@
         <el-table-column label="ID" width="80" align="center">
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="充值单号" align="center">
+        <el-table-column label="订单号" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.trade_no }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="用户信息" width="200" align="center">
+        <el-table-column label="用户邮箱" width="200" align="center">
           <template slot-scope="scope">
-            <p>用户ID：{{ scope.row.uid }}</p>
-            <p>用户名：{{ scope.row.name }}</p>
-            <p>钱包地址：{{scope.row.address }}</p>
+            <p>{{ scope.row.name }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="区块ID" width="200" align="center">
+        <el-table-column label="上级用户" width="200" align="center">
           <template slot-scope="scope">
-            <p>区块ID：{{ scope.row.block_id }}</p>
+<!--            <p>{ scope.row.block_id }}</p>-->
+          </template>
+        </el-table-column>
+        <el-table-column label="充值类型"  align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.type_str }}</p>
           </template>
         </el-table-column>
 <!--        <el-table-column label="上传凭证" width="200" align="center">-->
@@ -98,30 +101,24 @@
 <!--          </template>-->
 <!--        </el-table-column>-->
 
-        <el-table-column label="充值信息" align="center">
+<!--        <el-table-column label="充值信息" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>充值总次数：{{ scope.row.number_total }}</p>-->
+<!--            <p>充值成功次数：{{ scope.row.number_success }}</p>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+        <el-table-column label="金额" align="center">
           <template slot-scope="scope">
-            <p>充值总次数：{{ scope.row.number_total }}</p>
-            <p>充值成功次数：{{ scope.row.number_success }}</p>
+            <p>{{ scope.row.payment_amount }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="充值金额" align="center">
+        <el-table-column label="区块ID" align="center">
           <template slot-scope="scope">
-            <p>预充Trx：{{ scope.row.order_amount }}</p>
-            <p>实充Trx：{{ scope.row.payment_amount }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="能量变化" align="center">
+        <el-table-column label="钱包地址" width="220" align="center">
           <template slot-scope="scope">
-            <p>之前能量：{{ scope.row.old_money }}</p>
-            <p>能量数量：{{ scope.row.number }}</p>
-            <p>之后能量：{{ scope.row.new_money }}</p>
-            <p>笔数：{{ scope.row.count }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="充值状态" align="center">
-          <template slot-scope="scope">
-            <p>充值状态:{{ scope.row.status_str }}</p>
-            <p>充值类型:{{ scope.row.type_str }}</p>
+
           </template>
         </el-table-column>
         <el-table-column label="操作信息" align="center">

@@ -104,27 +104,35 @@
         </el-table-column>
         <el-table-column label="用户信息" align="center">
           <template slot-scope="scope">
-            <p>用户名:{{ scope.row.name }}</p>
-            <p>上級名:{{ scope.row.agent_name}}</p>
+            <p>{{ scope.row.name }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="订单号" align="center">
+        <el-table-column label="上级用户" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.agent_name}}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="订单号" width="180"  align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.order_no }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="链上信息" align="center">
+        <el-table-column label="区块ID" align="center">
           <template slot-scope="scope">
             <p>区块ID:{{ scope.row.block_id }}</p>
-            <p>哈希:{{ scope.row.hashid }}</p>
+<!--            <p>哈希:{{ scope.row.hashid }}</p>-->
           </template>
         </el-table-column>
 
-        <el-table-column label="类型" width="120"   align="center">
+        <el-table-column label="采购类型"    align="center">
           <template slot-scope="scope">
-            <p>交易类型:{{ scope.row.transaction_type_str }}</p>
-            <p>采购类型:{{ scope.row.purchase_type_str }}</p>
-            <p>计算类型:{{ scope.row.type_str }}</p>
+<!--            <p>交易类型:{{ scope.row.transaction_type_str }}</p>-->
+            <p>{{ scope.row.purchase_type_str }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="计算类型"    align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.type_str }}</p>
           </template>
         </el-table-column>
 <!--        <el-table-column label="订单地址" align="center">-->
@@ -132,12 +140,12 @@
 <!--            <p>{{ scope.row.order_address }}</p>-->
 <!--          </template>-->
 <!--        </el-table-column>-->
-        <el-table-column label="资源发起地址" align="center">
+        <el-table-column label="发起地址" width="180" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.payment_address }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="资源接收地址" align="center">
+        <el-table-column label="接收地址" width="180" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.energy_address }}</p>
           </template>
@@ -162,18 +170,27 @@
 <!--            <p>{{ scope.row.resource_price }}</p>-->
 <!--          </template>-->
 <!--        </el-table-column>-->
-        <el-table-column label="状态" align="center">
+        <el-table-column label="到账状态" align="center">
           <template slot-scope="scope">
-            <p>到账状态:{{scope.row.result_status_str }}</p>
-            <p>资源状态:{{scope.row.resource_status==1 ? "已回收":"未回收" }}</p>
+            <p>{{scope.row.result_status_str }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="占用质押TRX" align="center">
+        <el-table-column label="资源状态" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.money }}</p>
+            <p>{{scope.row.resource_status==1 ? "已回收":"未回收" }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="购买能量数量" align="center">
+        <el-table-column label="扣款金额" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.money}}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="占用TRX" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.pr_trx}}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="购买能量" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.number }}</p>
           </template>
@@ -183,26 +200,26 @@
             <p>{{ scope.row.sales_num }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="消息通知信息" align="center">
-          <template slot-scope="scope">
-            <p>TgID：{{ scope.row.chat_id }}</p>
-            <p>Tg姓名：{{ scope.row.chat_first }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="消息是否通知" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.chat_first_str }}</p>
-          </template>
-        </el-table-column>
+<!--        <el-table-column label="消息通知信息" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>TgID：{{ scope.row.chat_id }}</p>-->
+<!--            <p>Tg姓名：{{ scope.row.chat_first }}</p>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column label="消息是否通知" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>{{ scope.row.chat_first_str }}</p>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
 <!--        <el-table-column label="状态" width="140" align="center">-->
 <!--          <template slot-scope="scope">-->
 <!--            <p>{{ scope.row.status_str }}</p>-->
 <!--          </template>-->
 <!--        </el-table-column>-->
-        <el-table-column label="下单时间" align="center">
+        <el-table-column label="下单时间" width="320px" align="center">
           <template slot-scope="scope">
-            <p>开始时间:{{ scope.row.begin_time | formatTime }}</p>
-            <p>结束时间:{{ scope.row.end_time | formatTime }}</p>
+            <p>{{ scope.row.begin_time | formatTime }}-{{ scope.row.end_time | formatTime }}</p>
+<!--            <p>结束时间:{{ scope.row.end_time | formatTime }}</p>-->
           </template>
         </el-table-column>
         <el-table-column label="操作" width="160" align="center">

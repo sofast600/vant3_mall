@@ -7,12 +7,33 @@
         </div>
         <el-input v-model="editInfo.same_ip_register_number"></el-input>
       </el-form-item>
-      <el-form-item label="" prop="same_ip_register_number">
+      <el-form-item label="" prop="front_url">
         <div class="sub-title">
           注册网页链接前缀 front_url
         </div>
         <el-input v-model="editInfo.front_url"></el-input>
       </el-form-item>
+      <el-form-item label="" prop="commission_rate">
+        <div class="sub-title">
+          佣金比例 commission_rate  填写5即为百分5
+        </div>
+        <el-input v-model="editInfo.commission_rate"></el-input>
+      </el-form-item>
+
+      <el-form-item label="" prop="send_rate">
+        <div class="sub-title">
+          提现手续费 send_rate  填写5即为5trx
+        </div>
+        <el-input v-model="editInfo.send_rate"></el-input>
+      </el-form-item>
+
+      <el-form-item label="" prop="purchase_prices">
+        <div class="sub-title">
+           统一采购单价  purchase_prices  填写5即为5
+        </div>
+        <el-input v-model="editInfo.purchase_prices"></el-input>
+      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" @click="onSubmit('editInfoFrom')"
           >提交</el-button
@@ -23,11 +44,23 @@
 </template>
 <script>
 import { getSetting, updateSetting } from "@/api/setting";
-const defaultSetting = {
-  title: "",
-  address: "",
-  status: 1,
-  sort: 0,
+// const defaultSetting = {
+//   title: "",
+//   address: "",
+//   status: 1,
+//   sort: 0,
+//   // send_rate: 0,
+//   // purchase_prices: 0,
+//   // commission_rate: 0,
+//   // front_url: "",
+//   // same_ip_register_number: 0,
+// };
+const defaultData = {
+  send_rate: null,
+  purchase_prices: null,
+  commission_rate: null,
+  front_url: null,
+  same_ip_register_number: null,
 };
 export default {
   name: "SettingDetail",
@@ -39,20 +72,11 @@ export default {
   },
   data() {
     return {
-      editInfo: Object.assign({}, defaultSetting),
+      editInfo: Object.assign({}, defaultData),
     };
   },
   created() {
-    getSetting().then((response) => {
-      if (response.code == 1) {
-        this.editInfo = response.data;
-      } else {
-        this.$message({
-          message: response.info,
-          type: "error",
-        });
-      }
-    });
+    this.getSettings();
   },
   methods: {
     onSubmit(formName) {
@@ -71,7 +95,7 @@ export default {
                 });
               }
             });
-            this.getSetting();
+            this.getSettings();
         } else {
           this.$message({
             message: "验证失败",
@@ -82,10 +106,22 @@ export default {
         }
       });
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-      this.editInfo = Object.assign({}, defaultSetting);
+    getSettings(){
+      getSetting().then((response) => {
+        if (response.code == 1) {
+          this.editInfo = response.data;
+        } else {
+          this.$message({
+            message: response.info,
+            type: "error",
+          });
+        }
+      });
     },
+    // resetForm(formName) {
+    //   this.$refs[formName].resetFields();
+    //   this.editInfo = Object.assign({}, defaultSetting);
+    // },
   },
 };
 </script>

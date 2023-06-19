@@ -20,6 +20,16 @@ export function fetchAgentList(params) {
   })
 }
 
+//列表
+export function dataPanel(params) {
+  return request({
+    url: '/api/user.people/dataPanel',
+    method: 'post',
+    data: params
+  })
+}
+
+
 
 //列表
 export function fetchSuppleList(params) {

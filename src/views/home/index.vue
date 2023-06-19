@@ -2,53 +2,46 @@
   <div class="app-container">
     <div class="address-layout">
       <el-row :gutter="20">
-        <el-col :span="6">
-          <div class="out-border">
-            <div class="layout-title">后台项目</div>
-            <div class="color-main address-content">
-              <a href="https://github.com/macrozheng/mall">mall</a>
-            </div>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="out-border">
-            <div class="layout-title">前端项目</div>
-            <div class="color-main address-content">
-              <a href="https://github.com/macrozheng/mall-admin-web">mall-admin-web</a>
-            </div>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="out-border">
-            <div class="layout-title">学习教程</div>
-            <div class="color-main address-content">
-              <a href="https://github.com/macrozheng/mall-learning">mall-learning</a>
-            </div>
-          </div>
-        </el-col>
+
+
+
       </el-row>
     </div>
     <div class="total-layout">
       <el-row :gutter="20">
-        <el-col :span="6">
+        <el-col :span="5">
           <div class="total-frame">
             <img :src="img_home_order" class="total-icon">
             <div class="total-title">今日订单总数</div>
-            <div class="total-value">200</div>
+            <div class="total-value">{{list.today_order_total}}</div>
           </div>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="5">
           <div class="total-frame">
             <img :src="img_home_today_amount" class="total-icon">
-            <div class="total-title">今日销售总额</div>
-            <div class="total-value">￥5000.00</div>
+            <div class="total-title">今日充值TRX</div>
+            <div class="total-value">{{list.today_recharge_success}}</div>
           </div>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="5">
           <div class="total-frame">
             <img :src="img_home_yesterday_amount" class="total-icon">
-            <div class="total-title">昨日销售总额</div>
-            <div class="total-value">￥5000.00</div>
+            <div class="total-title">今日交易总订单数</div>
+            <div class="total-value">{{list.today_order_total_success}}</div>
+          </div>
+        </el-col>
+        <el-col :span="5">
+          <div class="total-frame">
+            <img :src="img_home_yesterday_amount" class="total-icon">
+            <div class="total-title">总充值</div>
+            <div class="total-value">{{list.recharge_success}}</div>
+          </div>
+        </el-col>
+        <el-col :span="4">
+          <div class="total-frame">
+            <img :src="img_home_yesterday_amount" class="total-icon">
+            <div class="total-title">能量交易总数</div>
+            <div class="total-value">{{list.number_order_total_success}}</div>
           </div>
         </el-col>
         <!--<el-col :span="6">-->
@@ -61,71 +54,71 @@
         <!--</el-col>-->
       </el-row>
     </div>
-    <div class="un-handle-layout">
-      <div class="layout-title">待处理事务</div>
-      <div class="un-handle-content">
-        <el-row :gutter="20">
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">待付款订单</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">已完成订单</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">待确认收货订单</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">待发货订单</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">新缺货登记</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">待处理退款申请</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">已发货订单</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">待处理退货订单</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="un-handle-item">
-              <span class="font-medium">广告位即将到期</span>
-              <span style="float: right" class="color-danger">(10)</span>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
-    </div>
+<!--    <div class="un-handle-layout">-->
+<!--      <div class="layout-title">待处理事务</div>-->
+<!--      <div class="un-handle-content">-->
+<!--&lt;!&ndash;        <el-row :gutter="20">&ndash;&gt;-->
+<!--&lt;!&ndash;          <el-col :span="8">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="un-handle-item">&ndash;&gt;-->
+<!--&lt;!&ndash;              <span class="font-medium">待付款订单</span>&ndash;&gt;-->
+<!--&lt;!&ndash;              <span style="float: right" class="color-danger">(10)</span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          </el-col>&ndash;&gt;-->
+<!--&lt;!&ndash;          <el-col :span="8">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="un-handle-item">&ndash;&gt;-->
+<!--&lt;!&ndash;              <span class="font-medium">已完成订单</span>&ndash;&gt;-->
+<!--&lt;!&ndash;              <span style="float: right" class="color-danger">(10)</span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          </el-col>&ndash;&gt;-->
+<!--&lt;!&ndash;          <el-col :span="8">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="un-handle-item">&ndash;&gt;-->
+<!--&lt;!&ndash;              <span class="font-medium">待确认收货订单</span>&ndash;&gt;-->
+<!--&lt;!&ndash;              <span style="float: right" class="color-danger">(10)</span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          </el-col>&ndash;&gt;-->
+<!--&lt;!&ndash;        </el-row>&ndash;&gt;-->
+<!--&lt;!&ndash;        <el-row :gutter="20">&ndash;&gt;-->
+<!--&lt;!&ndash;          <el-col :span="8">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="un-handle-item">&ndash;&gt;-->
+<!--&lt;!&ndash;              <span class="font-medium">待发货订单</span>&ndash;&gt;-->
+<!--&lt;!&ndash;              <span style="float: right" class="color-danger">(10)</span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          </el-col>&ndash;&gt;-->
+<!--&lt;!&ndash;          <el-col :span="8">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="un-handle-item">&ndash;&gt;-->
+<!--&lt;!&ndash;              <span class="font-medium">新缺货登记</span>&ndash;&gt;-->
+<!--&lt;!&ndash;              <span style="float: right" class="color-danger">(10)</span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          </el-col>&ndash;&gt;-->
+<!--&lt;!&ndash;          <el-col :span="8">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="un-handle-item">&ndash;&gt;-->
+<!--&lt;!&ndash;              <span class="font-medium">待处理退款申请</span>&ndash;&gt;-->
+<!--&lt;!&ndash;              <span style="float: right" class="color-danger">(10)</span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          </el-col>&ndash;&gt;-->
+<!--&lt;!&ndash;        </el-row>&ndash;&gt;-->
+<!--        <el-row :gutter="20">-->
+<!--          <el-col :span="8">-->
+<!--            <div class="un-handle-item">-->
+<!--              <span class="font-medium">已发货订单</span>-->
+<!--              <span style="float: right" class="color-danger">(10)</span>-->
+<!--            </div>-->
+<!--          </el-col>-->
+<!--          <el-col :span="8">-->
+<!--            <div class="un-handle-item">-->
+<!--              <span class="font-medium">待处理退货订单</span>-->
+<!--              <span style="float: right" class="color-danger">(10)</span>-->
+<!--            </div>-->
+<!--          </el-col>-->
+<!--          <el-col :span="8">-->
+<!--            <div class="un-handle-item">-->
+<!--              <span class="font-medium">广告位即将到期</span>-->
+<!--              <span style="float: right" class="color-danger">(10)</span>-->
+<!--            </div>-->
+<!--          </el-col>-->
+<!--        </el-row>-->
+<!--      </div>-->
+<!--    </div>-->
     <div class="overview-layout">
       <el-row :gutter="20">
         <el-col :span="12">
@@ -133,16 +126,20 @@
             <div class="layout-title">商品总览</div>
             <div style="padding: 40px">
               <el-row>
-                <el-col :span="6" class="color-danger overview-item-value">100</el-col>
-                <el-col :span="6" class="color-danger overview-item-value">400</el-col>
-                <el-col :span="6" class="color-danger overview-item-value">50</el-col>
-                <el-col :span="6" class="color-danger overview-item-value">500</el-col>
+                <el-col :span="4" class="color-danger overview-item-value">100</el-col>
+                <el-col :span="4" class="color-danger overview-item-value">400</el-col>
+                <el-col :span="4" class="color-danger overview-item-value">50</el-col>
+                <el-col :span="4" class="color-danger overview-item-value">100</el-col>
+                <el-col :span="4" class="color-danger overview-item-value">100</el-col>
+                <el-col :span="4" class="color-danger overview-item-value">100</el-col>
               </el-row>
               <el-row class="font-medium">
-                <el-col :span="6" class="overview-item-title">已下架</el-col>
-                <el-col :span="6" class="overview-item-title">已上架</el-col>
-                <el-col :span="6" class="overview-item-title">库存紧张</el-col>
-                <el-col :span="6" class="overview-item-title">全部商品</el-col>
+                <el-col :span="4" class="overview-item-title">1H</el-col>
+                <el-col :span="4" class="overview-item-title">3H</el-col>
+                <el-col :span="4" class="overview-item-title">1D</el-col>
+                <el-col :span="4" class="overview-item-title">3D</el-col>
+                <el-col :span="4" class="overview-item-title">15D</el-col>
+                <el-col :span="4" class="overview-item-title">30D</el-col>
               </el-row>
             </div>
           </div>
@@ -152,16 +149,16 @@
             <div class="layout-title">用户总览</div>
             <div style="padding: 40px">
               <el-row>
-                <el-col :span="6" class="color-danger overview-item-value">100</el-col>
-                <el-col :span="6" class="color-danger overview-item-value">200</el-col>
-                <el-col :span="6" class="color-danger overview-item-value">1000</el-col>
-                <el-col :span="6" class="color-danger overview-item-value">5000</el-col>
+                <el-col :span="8" class="color-danger overview-item-value">{{list.today_member_totle}}</el-col>
+                <el-col :span="8" class="color-danger overview-item-value">{{list.yestoday_member_totle}}</el-col>
+<!--                <el-col :span="6" class="color-danger overview-item-value">1000</el-col>-->
+                <el-col :span="8" class="color-danger overview-item-value">{{list.member_totle}}</el-col>
               </el-row>
               <el-row class="font-medium">
-                <el-col :span="6" class="overview-item-title">今日新增</el-col>
-                <el-col :span="6" class="overview-item-title">昨日新增</el-col>
-                <el-col :span="6" class="overview-item-title">本月新增</el-col>
-                <el-col :span="6" class="overview-item-title">会员总数</el-col>
+                <el-col :span="8" class="overview-item-title">今日新增</el-col>
+                <el-col :span="8" class="overview-item-title">昨日新增</el-col>
+<!--                <el-col :span="6" class="overview-item-title">本月新增</el-col>-->
+                <el-col :span="8" class="overview-item-title">会员总数</el-col>
               </el-row>
             </div>
           </div>
@@ -242,6 +239,9 @@
   import img_home_order from '@/assets/images/home_order.png';
   import img_home_today_amount from '@/assets/images/home_today_amount.png';
   import img_home_yesterday_amount from '@/assets/images/home_yesterday_amount.png';
+  import {
+    dataPanel, fetchList,
+  } from "@/api/user";
   const DATA_FROM_BACKEND = {
     columns: ['date', 'orderCount','orderAmount'],
     rows: [
@@ -301,6 +301,7 @@
           columns: [],
           rows: []
         },
+        list: {},
         loading: false,
         dataEmpty: false,
         img_home_order,
@@ -311,6 +312,7 @@
     created(){
       this.initOrderCountDate();
       this.getData();
+      this.getList();
     },
     methods:{
       handleDateChange(){
@@ -324,6 +326,20 @@
         const end = new Date();
         end.setTime(start.getTime() + 1000 * 60 * 60 * 24 * 7);
         this.orderCountDate=[start,end];
+      },
+      getList() {
+        dataPanel().then((response) => {
+          if (response.code == 1) {
+            const data = response.data;
+            this.list = data;
+          } else {
+            this.$message({
+              message: response.info,
+              type: "error",
+              duration: 3000,
+            });
+          }
+        });
       },
       getData(){
         setTimeout(() => {

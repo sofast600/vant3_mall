@@ -93,62 +93,66 @@
         <el-table-column label="序号" width="80" align="center">
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="供应商名称" align="center">
+        <el-table-column label="供应商名称" width="200" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.title }}</p>
-            <p>绑定前端账号:{{ scope.row.front_str }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="id" align="center">-->
+        <el-table-column label="绑定账号" width="120" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.front_str }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="id" width="100" align="center">-->
           <template slot-scope="scope">
             <p>{{ scope.row.privateKey }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="地址" align="center">
+        <el-table-column label="地址" width="220"  align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.address }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="是否授权" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.is_authorized_str }}</p>
-          </template>
-        </el-table-column>
+<!--        <el-table-column label="是否授权" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>{{ scope.row.is_authorized_str }}</p>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
         <el-table-column label="trx余额" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.balance }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="质押的trx数量" align="center">
+        <el-table-column label="质押trx" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.number }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="未质押剩余的trx数量" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.remain_number }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="已使用的能量" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.energy_used }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="质押获取的总能量" align="center">
+<!--        <el-table-column label="未质押剩余的trx数量" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>{{ scope.row.remain_number }}</p>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column label="已使用的能量" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>{{ scope.row.energy_used }}</p>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+        <el-table-column label="剩余能量" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.energy_limit }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="全网质押获取总能量" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.total_energy_limit }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="全网用于获取能量的质押trx质量" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.total_energy_weight }}</p>
-          </template>
-        </el-table-column>
+<!--        <el-table-column label="全网质押获取总能量" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>{{ scope.row.total_energy_limit }}</p>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column label="全网用于获取能量的质押trx质量" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>{{ scope.row.total_energy_weight }}</p>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
 <!--        <el-table-column label="上级用户" align="center">-->
 <!--          <template slot-scope="scope">-->
 <!--            <p>{{ scope.row.advanced_user }}</p>-->

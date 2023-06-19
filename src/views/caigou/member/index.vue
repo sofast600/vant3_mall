@@ -103,57 +103,47 @@
         <el-table-column label="账户ID" width="80" align="center">
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="用户名" align="center">
+        <el-table-column label="个人信息" width="230px" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.name }}</p>
+            <p class="left">注册邮箱:{{ scope.row.name }}</p>
+            <p class="left">邀请码:{{ scope.row.yqm }}</p>
+<!--            <p>角色:{{ scope.row.is_agent_str}}</p>-->
+<!--            <p>能量余额:{{ scope.row.amount }}</p>-->
           </template>
         </el-table-column>
-        <el-table-column label="个人信息" align="center">
+        <el-table-column label="账户余额" align="center">
           <template slot-scope="scope">
-            <p>邀请码:{{ scope.row.yqm }}</p>
-            <p>角色:{{ scope.row.is_agent_str}}</p>
-            <p>能量余额:{{ scope.row.amount }}</p>
+            <p>{{ scope.row.amount }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="钱包信息" align="center">
+        <el-table-column label="累计返佣" align="center">
           <template slot-scope="scope">
-            <p>钱包名称:{{ scope.row.wallet_name }}</p>
-            <p>钱包地址:{{ scope.row.wallet_address }}</p>
+            <p>{{ scope.row.countRebate }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="上级用户" align="center">
+        <el-table-column label="推荐人数" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.countTotal }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="钱包地址" width="150" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.wallet_address }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="上级用户" width="200" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.pid_name }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="委托平台信息" width="150" align="center">
+        <el-table-column label="能量交易总额" width="120"  align="center">
           <template slot-scope="scope">
-            <p>委托能量总数：{{ scope.row.energy_total }}</p>
-            <p>委托能量总笔数：{{ scope.row.energy_total_number }}</p>
-            <p>昨日委托能量总数：{{ scope.row.energy_yestoday }}</p>
-            <p>委托能量总笔数：{{ scope.row.energy_yestoday_number }}</p>
+            <p>{{ scope.row.countNumber }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="链上信息" width="200" align="center">
+        <el-table-column label="单价折扣" align="center">
           <template slot-scope="scope">
-            <p>昨日实际交易笔数：{{ scope.row.energy_yestoday_line_number }}</p>
-            <p>
-              昨日实际消耗能量总数：{{ scope.row.energy_yestoday_line_total }}
-            </p>
-            <p>昨日燃烧TRX总数：{{ scope.row.energy_yestoday_line_trx }}</p>
-            <p>
-              昨日消耗带宽总数：{{ scope.row.energy_yestoday_line_bandwidth }}
-            </p>
-            <p>
-              昨日发出新旧地址总数：{{
-                scope.row.energy_yestoday_line_address_number
-              }}
-            </p>
-          </template>
-        </el-table-column>
-        <el-table-column label="是否绑定bot" align="center">
-          <template slot-scope="scope">
-            <p>{{ scope.row.is_bot_str }}</p>
+            <p>{{ scope.row.sun_price==null ? "默认" : scope.row.sun_price  }}</p>
           </template>
         </el-table-column>
         <el-table-column label="状态" width="140" align="center">
@@ -467,6 +457,10 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+.left{
+  text-align: left;
+}
+</style>
 
 

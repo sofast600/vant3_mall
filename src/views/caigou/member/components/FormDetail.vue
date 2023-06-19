@@ -21,7 +21,7 @@
         <el-input v-model="editInfo.password_unencrypted"></el-input>
       </el-form-item>
 
-      <el-form-item label="代理单价" prop="sun_price" v-if="editInfo.is_agent==2">
+      <el-form-item label="代理单价" prop="sun_price" >
         <el-input v-model="editInfo.sun_price"></el-input>
       </el-form-item>
 

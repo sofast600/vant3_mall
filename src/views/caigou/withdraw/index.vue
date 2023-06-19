@@ -71,27 +71,35 @@
         <el-table-column label="ID" width="80" align="center">
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
+        <el-table-column label="用户名" width="200" align="center">
+          <template slot-scope="scope">
+            <p>用户名：{{ scope.row.name }}</p>
+          </template>
+        </el-table-column>
         <el-table-column label="提款单号" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.trade_no }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="用户信息" width="200" align="center">
+
+        <el-table-column label="提款地址" width="250" align="center">
           <template slot-scope="scope">
-            <p>用户ID：{{ scope.row.uid }}</p>
-            <p>用户名：{{ scope.row.name }}</p>
+            <p>{{ scope.row.address }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="提款信息" align="center">
+        <el-table-column label="申请金额" align="center">
           <template slot-scope="scope">
-            <p>提款地址：{{ scope.row.wallet_address }}</p>
+            <p>{{ scope.row.amount }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="提款金额" align="center">
+        <el-table-column label="打款金额"  align="center">
           <template slot-scope="scope">
-            <p>申请金额：{{ scope.row.amount }}</p>
-            <p>打款金额：{{ scope.row.money }}</p>
-            <p>提现次数：{{ scope.row.number_total }}</p>
+            <p>{{ scope.row.money }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="手续费"  align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.charge_amount }}</p>
           </template>
         </el-table-column>
         <el-table-column label="提款状态" align="center">
@@ -101,8 +109,11 @@
         </el-table-column>
         <el-table-column label="操作信息" align="center">
           <template slot-scope="scope">
-            <p>创建时间：{{ scope.row.create_at }}</p>
-            <p>提款时间：{{ scope.row.trade_time_str }}</p>
+<!--            <p>创建时间：{{ scope.row.create_at }}</p>-->
+<!--            <p>提款时间：{{ scope.row.trade_time_str }}</p>-->
+            <el-button v-if="scope.row.status==2" type="text" size="small" @click="handlePassForm(scope.$index,scope.row)">确定</el-button>
+            <el-button v-if="scope.row.status==1" type="text" size="small" @click="handlePassForm(scope.$index,scope.row)">审核通过</el-button>
+            <el-button v-if="scope.row.status==1" type="text" size="small" @click="handleUnPassForm(scope.$index,scope.row)">审核拒绝</el-button>
           </template>
         </el-table-column>
         <!-- <el-table-column label="操作" width="160" align="center">
@@ -137,12 +148,25 @@
       >
       </el-pagination>
     </div>
+    <el-dialog
+        title="提示"
+        :visible.sync="editInfo.dialogVisible"
+        width="30%"
+        :before-close="handleClose">
+      <span v-if="isPass">確定要审核通过吗</span>
+      <span v-else>確定要审核拒绝吗</span>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="editInfo.dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="handleConfirmForm">确 定</el-button>
+  </span>
+    </el-dialog>
   </div>
 </template>
 <script>
 import {
-  fetchList,
+  fetchList,confirmWithdraw,unPass
 } from "@/api/withdraw";
+import {pass, unpass} from "@/api/recharge";
 
 const defaultListQuery = {
   keyword: null,
@@ -181,6 +205,7 @@ export default {
       listLoading: true,
       editPromotion: Object.assign({}, defaultEditPromotion),
       isEdit: false,
+      isPass: false,
     };
   },
   created() {
@@ -205,6 +230,61 @@ export default {
           });
         }
       });
+    },
+
+    //通过审核
+    handlePassForm(index, row) {
+      this.editInfo.dialogVisible = true;
+      this.isPass=true;
+      this.editPromotion = Object.assign({}, row);
+    },
+    handleUnPassForm(index, row) {
+      this.editInfo.dialogVisible = true;
+      this.isPass=false;
+      this.editPromotion = Object.assign({}, row);
+    },
+
+    //通过审核
+    handleConfirmForm() {
+
+      let params ={
+        trade_no: this.editPromotion.trade_no,
+      };
+      if(this.isPass){
+        confirmWithdraw(params).then((response) => {
+          if (response.code == 1) {
+            this.$message({
+              message: "审核成功！",
+              type: "success",
+            });
+            this.editInfo.dialogVisible = false;
+            this.getList();
+          } else {
+            this.$message({
+              message: response.info,
+              type: "error",
+            });
+          }
+        });
+
+      }else{
+        unPass(params).then((response) => {
+          if (response.code == 1) {
+            this.$message({
+              message: "审核拒绝成功！",
+              type: "success",
+            });
+            this.editInfo.dialogVisible = false;
+            this.getList();
+          } else {
+            this.$message({
+              message: response.info,
+              type: "error",
+            });
+          }
+        });
+      }
+
     },
     //搜索
     handleSearchList() {

@@ -65,38 +65,51 @@
         <el-table-column label="ID" width="80" align="center">
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="订单单号" align="center">
+        <el-table-column label="用户邮箱" width="250" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.name }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="时间" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.create_at }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="订单号" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.trade_no }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="用户信息" width="200" align="center">
-          <template slot-scope="scope">
-            <p>用户ID：{{ scope.row.uid }}</p>
-            <p>用户名：{{ scope.row.name }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="类型" align="center">
+
+        <el-table-column label="账变类型" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.type_value }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="金额变化" align="center">
+        <el-table-column label="账变金额" align="center">
           <template slot-scope="scope">
-            <p>之前金额：{{ scope.row.old_money }}</p>
-            <p>账变：{{ scope.row.money }}</p>
-            <p>之后金额：{{ scope.row.new_money }}</p>
+            <p>{{ scope.row.money }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="之前金额" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.old_money }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column label="之后金额" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.new_money }}</p>
           </template>
         </el-table-column>
 
-        <el-table-column label="操作信息" align="center">
-          <template slot-scope="scope">
-            <p>创建时间：{{ scope.row.create_at }}</p>
-<!--            <p>操作人：{{ scope.row.admin_name }}</p>-->
-<!--            <p>操作时间：{{ scope.row.check_time_str }}</p>-->
-<!--            <p>备注：{{ scope.row.remark }}</p>-->
-          </template>
-        </el-table-column>
+<!--        <el-table-column label="操作信息" align="center">-->
+<!--          <template slot-scope="scope">-->
+<!--            <p>创建时间：{{ scope.row.create_at }}</p>-->
+<!--&lt;!&ndash;            <p>操作人：{{ scope.row.admin_name }}</p>&ndash;&gt;-->
+<!--&lt;!&ndash;            <p>操作时间：{{ scope.row.check_time_str }}</p>&ndash;&gt;-->
+<!--&lt;!&ndash;            <p>备注：{{ scope.row.remark }}</p>&ndash;&gt;-->
+<!--          </template>-->
+<!--        </el-table-column>-->
         <!-- <el-table-column label="操作" width="160" align="center">
           <template slot-scope="scope">
             <p>
