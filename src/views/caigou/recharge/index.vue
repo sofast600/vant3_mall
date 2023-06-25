@@ -83,7 +83,7 @@
         </el-table-column>
         <el-table-column label="上级用户" width="200" align="center">
           <template slot-scope="scope">
-<!--            <p>{ scope.row.block_id }}</p>-->
+            <p>{{ scope.row.superior_str }}</p>
           </template>
         </el-table-column>
         <el-table-column label="充值类型"  align="center">
@@ -114,11 +114,12 @@
         </el-table-column>
         <el-table-column label="区块ID" align="center">
           <template slot-scope="scope">
+            <p>{{ scope.row.block_id }}</p>
           </template>
         </el-table-column>
         <el-table-column label="钱包地址" width="220" align="center">
           <template slot-scope="scope">
-
+            <p>{{ scope.row.address }}</p>
           </template>
         </el-table-column>
         <el-table-column label="操作信息" align="center">

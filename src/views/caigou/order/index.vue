@@ -135,11 +135,11 @@
             <p>{{ scope.row.type_str }}</p>
           </template>
         </el-table-column>
-<!--        <el-table-column label="订单地址" align="center">-->
-<!--          <template slot-scope="scope">-->
-<!--            <p>{{ scope.row.order_address }}</p>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
+        <el-table-column label="交易类型" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.transaction_type_str }}</p>
+          </template>
+        </el-table-column>
         <el-table-column label="发起地址" width="180" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.payment_address }}</p>
