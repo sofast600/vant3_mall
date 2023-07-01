@@ -115,12 +115,12 @@
         </el-table-column>
         <el-table-column label="会员总数" align="center">
           <template slot-scope="scope">
-
+            <p>{{ scope.row.memberTotal }}</p>
           </template>
         </el-table-column>
         <el-table-column label="能量交易总数" align="center">
           <template slot-scope="scope">
-<!--            <p>{{ scope.row.pid_name }}</p>-->
+            <p>{{ scope.row.energyTotal }}</p>
           </template>
         </el-table-column>
         <el-table-column label="充值总数" width="150" align="center">
@@ -131,23 +131,18 @@
 
 
 
-<!--        <el-table-column label="操作" width="160" align="center">-->
-<!--          <template slot-scope="scope">-->
-<!--            <p>-->
-<!--              <el-button-->
-<!--                size="mini"-->
-<!--                @click="handleUpdateForm(scope.$index, scope.row)"-->
-<!--                >编辑-->
-<!--              </el-button>-->
+        <el-table-column label="操作" width="160" align="center">
+          <template slot-scope="scope">
+            <p>
+              <el-button
+                size="mini"
+                @click="handleUpdateForm(scope.$index, scope.row)"
+                >编辑
+              </el-button>
 
-<!--              <el-button-->
-<!--                  size="mini"-->
-<!--                  @click="handleTopForm(scope.$index, scope.row)"-->
-<!--              >上分-->
-<!--              </el-button>-->
-<!--            </p>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
+            </p>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <div class="pagination-container">

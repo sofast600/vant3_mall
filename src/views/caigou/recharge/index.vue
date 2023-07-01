@@ -71,7 +71,7 @@
         <el-table-column label="ID" width="80" align="center">
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="订单号" align="center">
+        <el-table-column label="订单号"  width="150" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.trade_no }}</p>
           </template>
@@ -112,9 +112,9 @@
             <p>{{ scope.row.payment_amount }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="区块ID" align="center">
+        <el-table-column label="哈希ID" width="520" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.block_id }}</p>
+            <p>{{ scope.row.hashid }}</p>
           </template>
         </el-table-column>
         <el-table-column label="钱包地址" width="220" align="center">

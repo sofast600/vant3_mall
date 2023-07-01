@@ -102,7 +102,7 @@
         <el-table-column label="ID" width="80" align="center">
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="用户信息" align="center">
+        <el-table-column label="用户信息" width="150" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.name }}</p>
           </template>
@@ -117,9 +117,9 @@
             <p>{{ scope.row.order_no }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="区块ID" align="center">
+        <el-table-column label="哈希ID" width="500"   align="center">
           <template slot-scope="scope">
-            <p>区块ID:{{ scope.row.block_id }}</p>
+            <p>{{ scope.row.hashid }}</p>
 <!--            <p>哈希:{{ scope.row.hashid }}</p>-->
           </template>
         </el-table-column>

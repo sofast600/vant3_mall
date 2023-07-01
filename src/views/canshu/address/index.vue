@@ -61,30 +61,34 @@
             style="width: 300px"
           ></el-input>
         </el-form-item>
-        <el-form-item label="地址类型：">
-          <el-input
-            v-model="editPromotion.type"
-            style="width: 300px"
-          ></el-input>
+        <el-form-item label="运营归属：">
+          <el-select v-model="editPromotion.mid"  placeholder="请选择运营前端账号" size="small" style="width: 300px;" >
+            <el-option
+                v-for="item in midUserNameList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="收款二维码：" prop="image">
           <single-upload v-model="editPromotion.image"></single-upload>
         </el-form-item>
-        <el-form-item label="谷歌密钥：" v-if="!isEdit">
-          <el-input
-            v-model="editPromotion.secret"
-            style="width: 300px"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="谷歌验证器二维码：" v-if="!isEdit">
-          <img :src="editPromotion.qrcodeImage" />
-        </el-form-item>
-        <el-form-item label="谷歌验证器验证码：">
-          <el-input
-            v-model="editPromotion.code"
-            style="width: 300px"
-          ></el-input>
-        </el-form-item>
+<!--        <el-form-item label="谷歌密钥：" v-if="!isEdit">-->
+<!--          <el-input-->
+<!--            v-model="editPromotion.secret"-->
+<!--            style="width: 300px"-->
+<!--          ></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="谷歌验证器二维码：" v-if="!isEdit">-->
+<!--          <img :src="editPromotion.qrcodeImage" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="谷歌验证器验证码：">-->
+<!--          <el-input-->
+<!--            v-model="editPromotion.code"-->
+<!--            style="width: 300px"-->
+<!--          ></el-input>-->
+<!--        </el-form-item>-->
         <el-form-item label="备注：">
           <el-input
             class="input-width"
@@ -154,9 +158,9 @@
             </p>
           </template>
         </el-table-column>
-        <el-table-column label="备注" align="center">
+        <el-table-column label="运营归属" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.remark }}</p>
+            <p>{{ scope.row.midName}}</p>
           </template>
         </el-table-column>
         <el-table-column label="创建时间" align="center">
@@ -209,6 +213,7 @@ import {
   getGoogle,
 } from "@/api/address";
 import SingleUpload from "@/components/Upload/singleUpload";
+import {fetchAllRoleList} from "@/api/role";
 
 const defaultListQuery = {
   keyword: null,
@@ -224,6 +229,7 @@ const defaultEditPromotion = {
   qrcodeImage: "",
   code: null,
   status: 1,
+  mid: null,
 };
 export default {
   name: "formList",
@@ -251,10 +257,12 @@ export default {
       listLoading: true,
       editPromotion: Object.assign({}, defaultEditPromotion),
       isEdit: false,
+      midUserNameList:null,
     };
   },
   created() {
     this.getList();
+    this.getAllRoleList();
   },
   watch: {},
   methods: {
@@ -274,6 +282,11 @@ export default {
             duration: 3000,
           });
         }
+      });
+    },
+    getAllRoleList() {
+      fetchAllRoleList().then(response => {
+        this.midUserNameList = response.data.mid;
       });
     },
     //搜索

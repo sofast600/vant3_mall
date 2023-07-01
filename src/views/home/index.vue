@@ -3,12 +3,10 @@
     <div class="address-layout">
       <el-row :gutter="20">
 
-
-
       </el-row>
     </div>
     <div class="total-layout">
-      <el-row :gutter="20">
+      <el-row :gutter="10">
         <el-col :span="5">
           <div class="total-frame">
             <img :src="img_home_order" class="total-icon">
@@ -367,8 +365,8 @@
 <style scoped>
   .app-container {
     margin-top: 40px;
-    margin-left: 120px;
-    margin-right: 120px;
+    margin-left: 30px;
+    margin-right: 30px;
   }
 
   .address-layout {
@@ -376,33 +374,35 @@
 
   .total-layout {
     margin-top: 20px;
+    width: 100%;
   }
 
   .total-frame {
     border: 1px solid #DCDFE6;
-    padding: 20px;
+    padding: 20px 10px 20px 10px;
     height: 100px;
   }
 
   .total-icon {
     color: #409EFF;
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
   }
 
   .total-title {
     position: relative;
     font-size: 16px;
     color: #909399;
-    left: 70px;
+    left: 50px;
     top: -50px;
+    white-space: break-spaces;
   }
 
   .total-value {
     position: relative;
     font-size: 18px;
     color: #606266;
-    left: 70px;
+    left: 50px;
     top: -40px;
   }
 

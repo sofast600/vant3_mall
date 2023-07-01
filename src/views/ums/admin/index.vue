@@ -1,4 +1,4 @@
-<template> 
+<template>
   <div class="app-container">
     <el-card class="filter-container" shadow="never">
       <div>
@@ -44,6 +44,12 @@
         </el-table-column>
         <el-table-column label="姓名" align="center">
           <template slot-scope="scope">{{scope.row.nickName}}</template>
+        </el-table-column>
+        <el-table-column label="角色" align="center">
+          <template slot-scope="scope">{{scope.row.role}}</template>
+        </el-table-column>
+        <el-table-column label="前端账号" align="center">
+          <template slot-scope="scope">{{scope.row.mid_username}}</template>
         </el-table-column>
         <el-table-column label="邮箱" align="center">
           <template slot-scope="scope">{{scope.row.contact_mail}}</template>
@@ -112,7 +118,7 @@
           <el-input v-model="admin.contact_mail" style="width: 250px"></el-input>
         </el-form-item>
         <el-form-item label="密码：">
-          <el-input v-model="admin.password"  type="password" style="width: 250px"></el-input>
+          <el-input v-model="admin.password"   style="width: 250px"></el-input>
         </el-form-item>
         <el-form-item label="备注：">
           <el-input v-model="admin.note"
@@ -142,6 +148,15 @@
           :key="item.id"
           :label="item.title"
           :value="item.id">
+        </el-option>
+      </el-select>
+
+      <el-select v-model="midUserName"  placeholder="请选择运营前端账号" size="small" style="width: 80%;margin-top: 20px" v-if="allocRoleIds==1">
+        <el-option
+            v-for="item in midUserNameList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
         </el-option>
       </el-select>
       <span slot="footer" class="dialog-footer">
@@ -182,7 +197,10 @@
         admin: Object.assign({}, defaultAdmin),
         isEdit: false,
         allocDialogVisible: false,
-        allocRoleIds:[],
+        allocRoleIds:null,
+        isAgent:null,
+        midUserName:null,
+        midUserNameList:null,
         allRoleList:[],
         allocAdminId:null
       }
@@ -311,6 +329,7 @@
           let params = new URLSearchParams();
           params.append("id", this.allocAdminId);
           params.append("roleIds", this.allocRoleIds);
+          params.append("mid", this.midUserName);
           allocRole(params).then(response => {
             this.$message({
               message: '分配成功！',
@@ -322,6 +341,8 @@
       },
       handleSelectRole(index,row){
         this.allocAdminId = row.id;
+        // this.allocRoleIds = row.role;
+        this.isAgent= row.role_id;
         this.allocDialogVisible = true;
         this.getRoleListByAdmin(row.id);
       },
@@ -335,7 +356,8 @@
       },
       getAllRoleList() {
         fetchAllRoleList().then(response => {
-          this.allRoleList = response.data;
+          this.allRoleList = response.data.role;
+          this.midUserNameList = response.data.mid;
         });
       },
       getRoleListByAdmin(adminId) {
