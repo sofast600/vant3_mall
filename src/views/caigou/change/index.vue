@@ -42,6 +42,18 @@
             ></el-input>
           </el-form-item>
 
+          <el-form-item label="类型：">
+            <el-select v-model="listQuery.type" placeholder="全部" clearable>
+              <el-option
+                  v-for="item in typeOptions"
+                  :key="item.value_id"
+                  :label="item.value"
+                  :value="item.value_id"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+
         </el-form>
       </div>
     </el-card>
@@ -102,14 +114,11 @@
           </template>
         </el-table-column>
 
-<!--        <el-table-column label="操作信息" align="center">-->
-<!--          <template slot-scope="scope">-->
-<!--            <p>创建时间：{{ scope.row.create_at }}</p>-->
-<!--&lt;!&ndash;            <p>操作人：{{ scope.row.admin_name }}</p>&ndash;&gt;-->
-<!--&lt;!&ndash;            <p>操作时间：{{ scope.row.check_time_str }}</p>&ndash;&gt;-->
-<!--&lt;!&ndash;            <p>备注：{{ scope.row.remark }}</p>&ndash;&gt;-->
-<!--          </template>-->
-<!--        </el-table-column>-->
+        <el-table-column label="备注" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.remark }}</p>
+          </template>
+        </el-table-column>
         <!-- <el-table-column label="操作" width="160" align="center">
           <template slot-scope="scope">
             <p>
@@ -146,7 +155,7 @@
 </template>
 <script>
 import {
-  fetchList,
+  fetchList,fetchType
 } from "@/api/change";
 
 const defaultListQuery = {
@@ -175,6 +184,8 @@ export default {
           value: 0,
           label: "禁用",
         },
+      ],
+      typeOptions: [
       ],
       editInfo: {
         dialogVisible: false,
@@ -210,6 +221,19 @@ export default {
           });
         }
       });
+      fetchType().then((response) => {
+
+        if (response.code == 1) {
+          this.typeOptions  = response.data;
+        } else {
+          this.$message({
+            message: response.info,
+            type: "error",
+            duration: 3000,
+          });
+        }
+      });
+
     },
     //搜索
     handleSearchList() {

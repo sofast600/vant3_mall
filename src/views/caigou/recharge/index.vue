@@ -122,6 +122,11 @@
             <p>{{ scope.row.address }}</p>
           </template>
         </el-table-column>
+        <el-table-column label="提交时间" width="220" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.create_at }}</p>
+          </template>
+        </el-table-column>
         <el-table-column label="操作信息" align="center">
           <template slot-scope="scope">
 <!--            <el-button type="success">审核通过</el-button>-->

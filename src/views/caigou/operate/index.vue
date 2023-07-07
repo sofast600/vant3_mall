@@ -125,7 +125,7 @@
         </el-table-column>
         <el-table-column label="充值总数" width="150" align="center">
           <template slot-scope="scope">
-
+            <p>{{ scope.row.rechargeTotal }}</p>
           </template>
         </el-table-column>
 
@@ -263,16 +263,16 @@ export default {
     },
     //编辑-新增
     handleAddForm() {
-      this.$router.push({ path: "/caigou/memberAdd" });
+      this.$router.push({ path: "/caigou/operateAdd" });
     },
     //编辑-修改
     handleUpdateForm(index, row) {
-      this.$router.push({ path: "/caigou/memberEdit", query: { id: row.id } });
+      this.$router.push({ path: "/caigou/operateEdit", query: { id: row.id } });
     },
 
     //编辑-上分
     handleTopForm(index, row) {
-      this.$router.push({ path: "/caigou/membertop", query: { id: row.id } });
+      this.$router.push({ path: "/caigou/operatetop", query: { id: row.id } });
     },
     //保存表单提交数据
     handleDialogConfirm() {

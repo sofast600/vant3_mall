@@ -136,7 +136,7 @@
         </el-table-column>
         <el-table-column label="开关" width="140" align="center">
           <template slot-scope="scope">
-            <p>
+            <p v-if="scope.row.midName==null">
               默认：
               <el-switch
                 @change="handleDefaultChange(scope.$index, scope.row)"

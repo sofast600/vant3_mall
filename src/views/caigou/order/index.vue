@@ -82,7 +82,7 @@
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets"></i>
       <span>数据列表</span>
-      <el-button class="btn-add"  size="mini">
+      <el-button class="btn-add" @click="allRecycle"    size="mini">
         一键回收
       </el-button>
     </el-card>
@@ -264,10 +264,10 @@ const defaultListQuery = {
   keyword: null,
   page: 1,
   limit: 10,
-  payment_address: null,
   create_at: null,
   begin_date: null,
   end_date: null,
+
 };
 const defaultEditPromotion = {
   type: null,
@@ -275,6 +275,9 @@ const defaultEditPromotion = {
   title: null,
   link: null,
   status: 1,
+  pr_trx: null,
+  energy_address: null,
+  payment_address: null,
 };
 export default {
   name: "formList",
@@ -481,6 +484,16 @@ export default {
       });
       this.getList();
     },
+    allRecycle(){
+      this.$confirm("是否要进行一键能量回收操作?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+
+      });
+    },
+
     handleShowRecycle(index, row) {
       this.$confirm("是否要进行能量回收操作?", "提示", {
         confirmButtonText: "确定",
@@ -489,35 +502,41 @@ export default {
       }).then(() => {
         this.editPromotion = Object.assign({}, row);
         const TronWeb = require("tronweb");
-        const tronweb = new TronWeb({
+        const tronWeb = new TronWeb({
           fullHost: "https://api.trongrid.io",
-          headers: {"TRON-PRO-API-KEY": "6695790a-649c-4b95-bc79-450e154b3bd2"},
+          headers: {
+            "TRON-PRO-API-KEY": "6695790a-649c-4b95-bc79-450e154b3bd2",
+          },
           privateKey:
               "88910afb27e6423d297ea5b30a55da51675022bbbe147caf11c7c4c4347991f9",
         });
-        var to = tronweb.address.toHex(this.editPromotion.energy_address);
-        var from = tronweb.address.toHex(this.editPromotion.payment_address);
+        var to = tronWeb.address.toHex(this.editPromotion.energy_address);
+        var from = tronWeb.address.toHex(this.editPromotion.payment_address);
         var obj = setInterval(async () => {
               clearInterval(obj);
-        const tx = await tronweb.transactionBuilder.undelegateResource(
-            this.editPromotion.money,
-            to,
+              console.log(to);
+          console.log(from);
+          console.log(this.editPromotion.pr_trx);
+        const tx = await tronWeb.transactionBuilder.undelegateResource(
+            this.editPromotion.pr_trx *1000000,
+            this.editPromotion.energy_address,
             "ENERGY",
-            from,
+            this.editPromotion.payment_address,
         );
-          let accountInfo = await tronweb.trx.getAccount(from);
+          console.log(tx);
+          let accountInfo = await tronWeb.trx.getAccount(from);
           for (let i = 0; i < accountInfo.active_permission.length; i++) {
-            if (tronweb.address.toHex(this.addressDefalt) == accountInfo.active_permission[i].keys[0].address) {
+            if (tronWeb.address.toHex(this.addressDefalt) == accountInfo.active_permission[i].keys[0].address) {
               this.addressId = accountInfo.active_permission[i].id
             }
           }
-          const signedTx = await tronweb.trx.multiSign(
+          const signedTx = await tronWeb.trx.multiSign(
               tx,
               "88910afb27e6423d297ea5b30a55da51675022bbbe147caf11c7c4c4347991f9",
               this.addressId
           );
 
-          const broastTx = await tronweb.trx.sendRawTransaction(signedTx);
+          const broastTx = await tronWeb.trx.sendRawTransaction(signedTx);
           // console.log(broastTx);
           if (broastTx.result) {
             let params ={
@@ -544,7 +563,7 @@ export default {
             });
           }
 
-            }, 1000);
+            }, 2000);
       //   let  time=new Date().getTime();
       //     if(row.end_time>time){
       //       this.$message({

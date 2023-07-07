@@ -16,6 +16,10 @@
         <el-input disabled="true" v-model="editInfo.amount"></el-input>
       </el-form-item>
 
+      <el-form-item label="备注" prop="wallet_address">
+        <el-input  v-model="editInfo.remark"></el-input>
+      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" @click="onSubmit('editInfoFrom')"
         >提交</el-button
@@ -28,7 +32,6 @@
 <script>
 import {createMember as createData,
   getMember as getData,
-  updateMember as updateData,
   updateMemberTop as updateDataTop} from "@/api/user";
 const defaultData = {
   name: "",
@@ -38,6 +41,7 @@ const defaultData = {
   status: 1,
   is_agent: '',
   add_amount:'',
+  remark:'',
 };
 export default {
   name: "AddMoney",

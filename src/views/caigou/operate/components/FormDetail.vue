@@ -21,35 +21,35 @@
         <el-input v-model="editInfo.password_unencrypted"></el-input>
       </el-form-item>
 
-      <el-form-item label="代理单价" prop="sun_price" v-if="editInfo.is_agent==1">
-        <el-input v-model="editInfo.sun_price"></el-input>
-      </el-form-item>
+<!--      <el-form-item label="代理单价" prop="sun_price" v-if="editInfo.is_agent==1">-->
+<!--        <el-input v-model="editInfo.sun_price"></el-input>-->
+<!--      </el-form-item>-->
 
 
-        <el-form-item label="角色" prop="wallet_address">
-<!--          <el-input v-model="editInfo.password_unencrypted"></el-input>-->
-          <el-select v-model="editInfo.is_agent" placeholder="请选择角色" clearable>
-            <el-option
-                v-for="item in roleOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
+<!--        <el-form-item label="角色" prop="wallet_address">-->
+<!--&lt;!&ndash;          <el-input v-model="editInfo.password_unencrypted"></el-input>&ndash;&gt;-->
+<!--          <el-select v-model="editInfo.is_agent" placeholder="请选择角色" clearable>-->
+<!--            <el-option-->
+<!--                v-for="item in roleOptions"-->
+<!--                :key="item.value"-->
+<!--                :label="item.label"-->
+<!--                :value="item.value"-->
+<!--            >-->
+<!--            </el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
 
-      <el-form-item label="上级名" prop="name">
-        <el-select v-model="editInfo.agent_name" placeholder="请选择上级名" clearable>
-          <el-option
-              v-for="item in roleOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-          >
-          </el-option>
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="上级名" prop="name">-->
+<!--        <el-select v-model="editInfo.agent_name" placeholder="请选择上级名" clearable>-->
+<!--          <el-option-->
+<!--              v-for="item in roleOptions"-->
+<!--              :key="item.value"-->
+<!--              :label="item.label"-->
+<!--              :value="item.value"-->
+<!--          >-->
+<!--          </el-option>-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
 
         <el-button type="primary" @click="onSubmit('editInfoFrom')"
           >提交</el-button

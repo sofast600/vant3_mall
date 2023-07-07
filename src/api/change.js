@@ -9,3 +9,12 @@ export function fetchList(params) {
     })
 }
 
+//账变类型
+export function fetchType(params) {
+    return request({
+        url: '/api/user.change/type',
+        method: 'post',
+        data: params
+    })
+}
+

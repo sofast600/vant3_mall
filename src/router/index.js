@@ -180,20 +180,20 @@ export const asyncRouterMap = [
       {
         path: 'operateAdd',
         name: 'operateAdd',
-        component: () => import('@/views/caigou/supple/add'),
+        component: () => import('@/views/caigou/operate/add'),
         meta: { title: '运营中心增加', icon: 'product-list' }
       },
       {
         path: 'operateEdit',
         name: 'operateEdit',
-        component: () => import('@/views/caigou/supple/edit'),
+        component: () => import('@/views/caigou/operate/edit'),
         meta: { title: '运营中心修改' },
         hidden: true
       },
       {
         path: 'operatetop',
         name: 'operatetop',
-        component: () => import('@/views/caigou/supple/top_score'),
+        component: () => import('@/views/caigou/operate/top_score'),
         meta: { title: '上分' },
         hidden: true
       },
