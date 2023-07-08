@@ -83,6 +83,7 @@
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets"></i>
       <span>数据列表</span>
+
     </el-card>
     <div class="table-container">
       <el-table
@@ -100,10 +101,10 @@
         <el-table-column label="账户ID" width="80" align="center">
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="个人信息" align="center">
+        <el-table-column label="个人信息" width="230px" align="center">
           <template slot-scope="scope">
-            <p>注册邮箱:{{ scope.row.name }}</p>
-            <p>邀请码:{{ scope.row.yqm }}</p>
+            <p class="left">注册邮箱:{{ scope.row.name }}</p>
+            <p class="left">邀请码:{{ scope.row.yqm }}</p>
           </template>
         </el-table-column>
         <el-table-column label="账户余额" align="center">
@@ -116,17 +117,17 @@
             <p>{{ scope.row.countRebate }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="推荐人数" width="150" align="center">
+        <el-table-column label="推荐人数" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.countTotal }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="钱包地址" width="200" align="center">
+        <el-table-column label="钱包地址" width="150" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.wallet_address }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="上级用户" align="center">
+        <el-table-column label="上级用户" width="200" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.pid_name }}</p>
           </template>
@@ -164,11 +165,7 @@
                 >编辑
               </el-button>
 
-              <el-button
-                  size="mini"
-                  @click="handleTopForm(scope.$index, scope.row)"
-              >上分
-              </el-button>
+
             </p>
           </template>
         </el-table-column>
@@ -191,7 +188,7 @@
 </template>
 <script>
 import {
-  fetchAgentList,
+  fetchOneList,
   createMember as createData,
   updateMember as updateData,
   deleteMember as deleteData,
@@ -255,7 +252,7 @@ export default {
     //列表
     getList() {
       this.listLoading = true;
-      fetchAgentList(this.listQuery).then((response) => {
+      fetchOneList(this.listQuery).then((response) => {
         this.listLoading = false;
         if (response.code == 1) {
           const data = response.data;
@@ -290,19 +287,13 @@ export default {
       this.listQuery.page = val;
       this.getList();
     },
-    //编辑-新增
-    handleAddForm() {
-      this.$router.push({ path: "/caigou/memberAdd" });
-    },
+
     //编辑-修改
     handleUpdateForm(index, row) {
-      this.$router.push({ path: "/caigou/memberEdit", query: { id: row.id } });
+      this.$router.push({ path: "/caigou/oneEdit", query: { id: row.id } });
     },
 
-    //编辑-上分
-    handleTopForm(index, row) {
-      this.$router.push({ path: "/caigou/membertop", query: { id: row.id } });
-    },
+
     //保存表单提交数据
     handleDialogConfirm() {
       if (this.isEdit) {
@@ -452,6 +443,10 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+.left{
+  text-align: left;
+}
+</style>
 
 

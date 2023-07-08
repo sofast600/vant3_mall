@@ -197,6 +197,19 @@ export const asyncRouterMap = [
         meta: { title: '上分' },
         hidden: true
       },
+      {
+        path: 'one',
+        name: 'one',
+        component: () => import('@/views/caigou/one/index'),
+        meta: { title: '1级会员列表', icon: 'product-list' }
+      },
+      {
+        path: 'oneEdit',
+        name: 'oneEdit',
+        component: () => import('@/views/caigou/one/edit'),
+        meta: { title: '1级会员修改' },
+        hidden: true
+      },
 
       {
         path: 'order',

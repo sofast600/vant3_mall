@@ -83,9 +83,7 @@
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets"></i>
       <span>数据列表</span>
-      <el-button class="btn-add" @click="handleAddForm()" size="mini">
-        添加账户
-      </el-button>
+
     </el-card>
     <div class="table-container">
       <el-table

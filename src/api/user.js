@@ -9,7 +9,14 @@ export function fetchList(params) {
   })
 }
 
-
+//列表
+export function fetchOneList(params) {
+  return request({
+    url: '/api/user.people/indexOne',
+    method: 'get',
+    params: params
+  })
+}
 
 //列表
 export function fetchAgentList(params) {
