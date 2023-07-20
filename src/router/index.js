@@ -22,6 +22,7 @@ export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
   { path: '/sublet', component: () => import('@/views/sublet/index'), hidden: true },
+  { path: '/recovery', component: () => import('@/views/recovery/index'),hidden: true },
   {
     path: '',
     component: Layout,
@@ -217,6 +218,8 @@ export const asyncRouterMap = [
         component: () => import('@/views/caigou/order/index'),
         meta: { title: '委托订单', icon: 'product-list' }
       },
+
+
       {
         path: 'recharge',
         name: 'recharge',

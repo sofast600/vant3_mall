@@ -18,6 +18,16 @@ export function fetchOneList(params) {
   })
 }
 
+//回收订单
+export function fetchRecveryList(params) {
+  return request({
+    url: '/api/busy.order/recycleList',
+    method: 'post',
+    data: params
+  })
+}
+
+
 //列表
 export function fetchAgentList(params) {
   return request({

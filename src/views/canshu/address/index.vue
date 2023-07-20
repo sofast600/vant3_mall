@@ -131,7 +131,7 @@
         </el-table-column>
         <el-table-column label="收款二维码" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.address }}</p>
+            <img :src=scope.row.image style="width: 80px;height: 80px"></img>
           </template>
         </el-table-column>
         <el-table-column label="开关" width="140" align="center">

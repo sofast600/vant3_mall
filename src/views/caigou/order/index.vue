@@ -526,7 +526,7 @@ export default {
           console.log(tx);
           let accountInfo = await tronWeb.trx.getAccount(from);
           for (let i = 0; i < accountInfo.active_permission.length; i++) {
-            if (tronWeb.address.toHex(this.addressDefalt) == accountInfo.active_permission[i].keys[0].address) {
+            if (tronWeb.address.toHex('TJjJ7mB6NHYpm1sZo62MKMSSsWXKiDK8EZ') == accountInfo.active_permission[i].keys[0].address) {
               this.addressId = accountInfo.active_permission[i].id
             }
           }
