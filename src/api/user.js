@@ -21,7 +21,7 @@ export function fetchOneList(params) {
 //回收订单
 export function fetchRecveryList(params) {
   return request({
-    url: '/api/busy.order/recycleList',
+    url: '/api/data.login/recycleList',
     method: 'post',
     data: params
   })
