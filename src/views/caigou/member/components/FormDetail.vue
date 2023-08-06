@@ -50,7 +50,9 @@
         </el-option>
       </el-select>
     </el-form-item>
-
+    <el-form-item label="客服链接" prop="online_service" >
+        <el-input v-model="editInfo.online_service"></el-input>
+      </el-form-item>
       <el-form-item label="供应商钱包" prop="name" v-if="editInfo.is_agent==3">
         <el-select v-model="editInfo.sup_ids" multiple placeholder="供应商钱包" clearable>
           <el-option
@@ -74,7 +76,8 @@
 import {
   getMember as getData,
   updateMember as updateData,
-  createMember as createData, chooseRoleList,
+  createMember as createData,
+  chooseRoleList,
 } from "@/api/user";
 const defaultData = {
   name: "",
@@ -82,10 +85,10 @@ const defaultData = {
   wallet_address: "",
   password_unencrypted: "",
   status: 1,
-  is_agent: '',
-  agent_mid: '',
-  pid: '',
-  sup_ids: '',
+  is_agent: "",
+  agent_mid: "",
+  pid: "",
+  sup_ids: "",
 };
 export default {
   name: "MemberDetail",
@@ -98,8 +101,8 @@ export default {
   data() {
     return {
       editInfo: Object.assign({}, defaultData),
-      optionList:null,
-      supplierList:null,
+      optionList: null,
+      supplierList: null,
       roleOptions: [
         {
           value: 3,
@@ -146,7 +149,7 @@ export default {
         if (response.code == 1) {
           const data = response.data;
           this.optionList = data.optionList;
-          this.supplierList= data.supplierList;
+          this.supplierList = data.supplierList;
         } else {
           this.$message({
             message: response.info,
