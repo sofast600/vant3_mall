@@ -131,6 +131,11 @@
             <p>{{ scope.row.wallet_address }}</p>
           </template>
         </el-table-column>
+        <el-table-column label="充值地址" width="150" align="center">
+          <template slot-scope="scope">
+            <p>{{ scope.row.address }}</p>
+          </template>
+        </el-table-column>
         <el-table-column label="上级用户" width="200" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.pid_name }}</p>
