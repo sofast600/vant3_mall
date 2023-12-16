@@ -105,6 +105,10 @@ export default {
       supplierList: null,
       roleOptions: [
         {
+          value: 4,
+          label: "员工",
+        },
+        {
           value: 3,
           label: "供应商",
         },

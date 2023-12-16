@@ -123,19 +123,19 @@ export const asyncRouterMap = [
         path: 'agent',
         name: 'agent',
         component: () => import('@/views/caigou/agent/index'),
-        meta: { title: '员工列表', icon: 'product-list' }
+        meta: { title: '代理列表', icon: 'product-list' }
       },
       {
         path: 'agentAdd',
         name: 'agentAdd',
         component: () => import('@/views/caigou/agent/add'),
-        meta: { title: '员工增加', icon: 'product-list' }
+        meta: { title: '代理增加', icon: 'product-list' }
       },
       {
         path: 'agentEdit',
         name: 'agentEdit',
         component: () => import('@/views/caigou/agent/edit'),
-        meta: { title: '员工修改' },
+        meta: { title: '代理修改' },
         hidden: true
       },
       {
@@ -202,13 +202,13 @@ export const asyncRouterMap = [
         path: 'one',
         name: 'one',
         component: () => import('@/views/caigou/one/index'),
-        meta: { title: '代理列表', icon: 'product-list' }
+        meta: { title: '员工列表', icon: 'product-list' }
       },
       {
         path: 'oneEdit',
         name: 'oneEdit',
         component: () => import('@/views/caigou/one/edit'),
-        meta: { title: '代理修改' },
+        meta: { title: '员工修改' },
         hidden: true
       },
 
