@@ -25,7 +25,7 @@ export default {
   },
   created() {
     this.getList();
-    this.dataRefreh();
+    // this.dataRefreh();
   },
   destroyed(){
     // 在页面销毁后，清除计时器
@@ -41,8 +41,9 @@ export default {
       // 计时器为空，操作
       this.intervalId = setInterval(() => {
         console.log("刷新" + new Date());
-        location.reload()
-      }, 60000);
+        // location.reload()
+        this.getList();
+      }, 20000);
     },
     // 停止定时器
     clear() {
@@ -52,7 +53,9 @@ export default {
 
     //列表
     getList(){
+
       fetchRecveryList().then((response) => {
+        if (response.code == 1) {
         const TronWeb = require("tronweb");
         const tronWeb = new TronWeb({
           fullHost: "https://api.trongrid.io",
@@ -62,7 +65,7 @@ export default {
           privateKey:
               "88910afb27e6423d297ea5b30a55da51675022bbbe147caf11c7c4c4347991f9",
         });
-        if (response.code == 1) {
+
           var data = response.data;
           this.list = data;
           if( this.list.length>0) {
@@ -107,7 +110,7 @@ export default {
                     }
                   });
                 }
-              }, 2000);
+              }, 4000);
             });
           }
 
@@ -117,6 +120,7 @@ export default {
 
         }
       });
+      this.dataRefreh();
     },
   },
 }
